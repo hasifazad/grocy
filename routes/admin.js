@@ -113,9 +113,9 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
         let browser = await puppeteer.launch()
         let page = await browser.newPage()
         let html = await fsextra.readFile('C:/Users/hasifazad/Desktop/pr/form.hbs', 'utf8')
-        console.log(data);
+        
         let content = hbs.compile(html)({ a: data })
-        console.log(content);
+       
         await page.setContent(content)
         await page.pdf({
             path: 'output.pdf',
@@ -196,7 +196,7 @@ router.get('/edit-product/:id', verifyAdminLogin, async (req, res) => {
 router.get('/remove-product/:id', async (req, res) => {
     let productId = req.params.id
     let { images } = await adminHelpers.removeProductImage(productId)
-    console.log(images);
+    
     for (i = 0; i < images.length; i++) {
         fs.unlinkSync('./public/images/products/' + images[i])
     }

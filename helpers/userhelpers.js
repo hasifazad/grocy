@@ -328,7 +328,7 @@ async function setOrders(userId, orderDetails) {
         coupon_applied: orderDetails.couponApplied,
         ordered_on: new Date()
     }
-    console.log(order);
+    
     await db.get().collection('coupons').updateOne({ code: order.coupon_applied }, { $addToSet: { users_used: ObjectId(userId) } })
     return await db.get().collection('orders').insertOne(order)
 }
