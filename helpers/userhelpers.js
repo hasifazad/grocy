@@ -349,8 +349,8 @@ async function generatePaypal(orderId) {
             "payment_method": "paypal"
         },
         "redirect_urls": {
-            "return_url": `http://localhost:3000/paypal-success/${orderId}`,
-            "cancel_url": "http://localhost:3000/paypal-cancel"
+            "return_url": `https://grocy.ga/paypal-success/${orderId}`,
+            "cancel_url": "https://grocy.ga/paypal-cancel"
         },
         "transactions": [{
             "item_list": {
