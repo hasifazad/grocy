@@ -1,0 +1,70 @@
+<div class="container">
+    <div class="row p-3 m-5 border">
+        <div class="col">
+            <p><b>Order ID&nbsp;&nbsp;&nbsp;: </b>{{orderData._id}}</p>
+            <p><b>Payment&nbsp;&nbsp;&nbsp;: </b>{{orderData.payment}}</p>
+            <p><b>Ordered&nbsp;&nbsp;&nbsp;: </b>{{orderData.ordered_on}}</p>
+            <p><b>Subtotal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{orderData.original_amount}}</p>
+            <p><b>Amount Paid&nbsp;&nbsp;: </b>{{orderData.offer_amount}}</p>
+        </div>
+        <div class="col">
+            <p><b>Deliver To&nbsp;: </b>{{orderData.delivery_details.housename}}</p>
+            <p><b>Contact&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{orderData.delivery_details.mobile}}</p>
+            <p><b>Landmark&nbsp;&nbsp;: </b>{{orderData.delivery_details.landmark}}</p>
+            <p><b>City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
+                </b>{{orderData.delivery_details.city}}</p>
+            <p><b>Pincode&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: </b>{{orderData.delivery_details.pincode}}</p>
+        </div>
+    </div>
+    <div class="row m-5">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price/Quantity</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each orderedProducts}}
+                <tr>
+                    <th scope="row">{{this.sl_no}}</th>
+                    <td>{{this.products.name}}</td>
+                    <td><img height="75" width="75" src="/images/products/{{this.products.images.[0]}}" alt=""></td>
+                    <td id="q{{this.products._id}}">{{this.quantity}}</td>
+                    <td id="p{{this.products._id}}">{{this.products.offer_price}}</td>
+                    <td id="t{{this.products._id}}">{{this.total}}</td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Total Amount</td>
+                    <td>
+                        <h5>{{orderData.original_amount}}</h5>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Amount Payed<br>
+                        {{#if orderData.coupon_applied}}
+                        <span class="text-success">(coupon Applied)</span>
+                        {{else}}
+                        {{/if}}
+                    </td>
+                    <td>
+                        <h2>{{orderData.offer_amount}}</h2>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

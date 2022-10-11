@@ -1,0 +1,302 @@
+<div class="container">
+
+    <div class="row">
+        <div class="col-8">
+            <form class="row g-3 border p-3 mt-3">
+                <div class="col-md-6">
+                    <label for="" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="emailid" value="{{userDetails.emailid}}" disabled
+                        required>
+                </div>
+                <div class="col-md-6">
+                    <label for="" class="form-label">Mobile</label>
+                    <input type="text" class="form-control" id="mobile" value="{{userDetails.mobile}}" disabled
+                        required>
+                </div>
+                <div class="col-12">
+                    <label for="" class="form-label">House Name/No.</label>
+                    <input type="text" class="form-control" id="housename" value="{{userAddress.address.[0].housename}}"
+                        disabled required>
+                </div>
+                <div class="col-6">
+                    <label for="" class="form-label">Locality</label>
+                    <input type="text" class="form-control" id="locality" value="{{userAddress.address.[0].locality}}"
+                        disabled required>
+                </div>
+                <div class="col-6">
+                    <label for="" class="form-label">Landmark</label>
+                    <input type="text" class="form-control" id="landmark" value="{{userAddress.address.[0].landmark}}"
+                        disabled required>
+                </div>
+                <div class="col-md-6">
+                    <label for="" class="form-label">City/Town</label>
+                    <input type="text" class="form-control" id="city" value="{{userAddress.address.[0].city}}" disabled
+                        required>
+                </div>
+                <div class="col-md-4">
+                    <label for="" class="form-label">District</label>
+                    <select id="district" class="form-select" disabled required>
+                        <option selected>{{userAddress.address.[0].district}}</option>
+                        <option>Tamil Nadu</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="" class="form-label">Pincode</label>
+                    <input type="text" class="form-control" id="pincode" value="{{userAddress.address.[0].pincode}}"
+                        disabled required>
+                </div>
+                <div class="col-12">
+
+                    <button class="btn btn-primary float-end" type="button" onclick="dis('edit')">Edit</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-4">
+            <div class="border p-3 m-2">
+                <input class="form-control mb-2" id="coupon_code" type="text" placeholder="Coupon Code">
+                <button class="btn btn-primary" onclick="applyCoupon()">Apply</button>
+                <span id="coupon_error" class="error"></span>
+            </div>
+            <form action="" method="">
+                <div class="border py-4 px-5 m-2 bg-light">
+                    <div class="row">
+                        <h5 class="col">Subtotal :</h5>
+                        <h5 class="col">Rs.{{total}}</h5>
+                    </div>
+                    <div class="row">
+                        <h5 class="col">Discount :</h5>
+                        <h5 class="col" id="discount"></h5>
+                    </div>
+                    <div class="row">
+                        <h2 class="col">Total :</h2>
+                        <h2 class="col" id="offer_amount">{{total}}</h2>
+                    </div>
+                    <label for="">Payment Method</label>
+                    <br>
+                    <br>
+                    <input type="radio" name="payment" id="" value="COD">
+                    <label for="">COD</label>
+                    <br>
+                    <input type="radio" name="payment" id="" value="razorpay">
+                    <label for="">Razorpay</label>
+                    <br>
+                    <input type="radio" name="payment" id="" value="paypal">
+                    <label for="">Paypal</label>
+                    <br>
+                    <input type="text" name="coupon_applied" id="coupon_applied" value="" hidden>
+                    <input type="text" name="total" id="original_amount" value="{{total}}" hidden>
+                    <button type="button" class="btn btn-primary mt-3" onclick="checkout()">Checkout</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+
+    {{#each userAddress.address}}
+    <div class="row">
+        <div class="col-6 border p-3 my-2">
+            <input class="form-check-input" name="address" type="radio" value=""
+                onclick="getAddress('{{this.address_no}}')">
+            <label class="form-check-label ms-2">
+                <p>{{this.housename}}, {{this.locality}}</p>
+                <p>Near by - {{this.landmark}}</p>
+                <p>{{this.city}}, {{this.district}}, {{this.pincode}}</p>
+            </label>
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<script>
+    function checkout() {
+        var ele = document.getElementsByName('payment');
+        for (i = 0; i < ele.length; i++) {
+            if (ele[i].checked)
+                payment = ele[i].value;
+        }
+        let originalAmount = document.getElementById('original_amount').value
+        let offerAmount = document.getElementById('offer_amount').innerHTML
+        let discount = document.getElementById('discount').innerHTML
+        let email = document.getElementById('emailid').value
+        let mobile = document.getElementById('mobile').value
+        let housename = document.getElementById('housename').value
+        let landmark = document.getElementById('landmark').value
+        let locality = document.getElementById('locality').value
+        let city = document.getElementById('city').value
+        let district = document.getElementById('district').value
+        let pincode = document.getElementById('pincode').value
+        let couponApplied = document.getElementById('coupon_applied').value
+        alert(offerAmount)
+        let obj = {
+            originalAmount, offerAmount, discount, payment, email, mobile, housename, landmark, locality, city, district, pincode, couponApplied
+        }
+
+        fetch('/checkout', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify(obj)
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            if (data.paymentType == 'COD') {
+                location.href = '/order-success'
+            }
+            else if (data.paymentType == 'razorpay') {
+                razorpayPayment(data.response, data.user)
+            } else if (data.paymentType == 'paypal') {
+                location.href = data.link
+            }
+        })
+    }
+
+
+
+
+    function razorpayPayment(order, user) {
+        var options = {
+            "key": "rzp_test_hpfEAD3AmmxVo5",
+            "amount": order.amount,
+            "currency": "INR",
+            "name": "Grocy",
+            "description": "Test Transaction",
+            "image": "https://example.com/your_logo",
+            "order_id": order.id,
+            "handler": function (response) {
+                verifyPayment(response, order)
+            },
+            "prefill": {
+                "name": user.username,
+                "email": user.email,
+                "contact": user.mobile
+            },
+            "notes": {
+                "address": "Razorpay Corporate Office"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp1 = new Razorpay(options)
+        rzp1.open()
+    }
+
+    function verifyPayment(payment, order) {
+        fetch('/razorpay-success', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                payment,
+                order
+            })
+        }).then((res) => {
+            return res.json()
+        }).then((response) => {
+            if (response.status) {
+                location.href = '/order-success'
+            } else {
+                alert('payment failed')
+            }
+        })
+
+    }
+
+
+    function applyCoupon() {
+        let code = document.getElementById('coupon_code').value
+        let total = document.getElementById('original_amount').value
+        fetch('/coupon-check', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                code, total
+            })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            let { result } = data
+            console.log(result)
+            if (result) {
+                if (result == 'coupon used') {
+                    document.getElementById('discount').innerHTML = 0
+                    document.getElementById('offer_amount').innerHTML = total
+                    document.getElementById('coupon_applied').value = ''
+                    document.getElementById('coupon_error').innerHTML = 'coupon used'
+                    document.getElementById('coupon_error').style.visibility = 'visible'
+                } else {
+                    console.log(data.result)
+                    document.getElementById('discount').innerHTML = result.discount
+                    document.getElementById('offer_amount').innerHTML = result.answer
+                    document.getElementById('coupon_applied').value = code
+                    document.getElementById('coupon_error').style.visibility = 'hidden'
+                }
+            }
+            else {
+                document.getElementById('discount').innerHTML = 0
+                document.getElementById('offer_amount').innerHTML = total
+                document.getElementById('coupon_applied').value = ''
+                document.getElementById('coupon_error').innerHTML = 'Invalid coupon'
+                document.getElementById('coupon_error').style.visibility = 'visible'
+            }
+        })
+    }
+
+    function getAddress(address_no) {
+        fetch('/getaddress', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                address_no
+            })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            document.getElementById('housename').value = data.address.housename
+            document.getElementById('locality').value = data.address.locality
+            document.getElementById('landmark').value = data.address.landmark
+            document.getElementById('city').value = data.address.city
+            document.getElementById('district').value = data.address.district
+            document.getElementById('pincode').value = data.address.pincode
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function dis(btn) {
+        if (btn == 'edit') {
+            var status = false
+        } else {
+            var status = true
+        }
+        console.log(status)
+        document.getElementById('email').disabled = status
+        document.getElementById('mobile').disabled = status
+        document.getElementById('housename').disabled = status
+        document.getElementById('locality').disabled = status
+        document.getElementById('landmark').disabled = status
+        document.getElementById('city').disabled = status
+        document.getElementById('district').disabled = status
+        document.getElementById('pincode').disabled = status
+        document.getElementById('submit').disabled = status
+    }
+
+
+</script>

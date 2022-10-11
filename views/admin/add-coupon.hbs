@@ -1,0 +1,20 @@
+<div class="col-9">
+    <div class="row">
+        <div class="col-4">
+            <div class="m-5 p-3 border rounded">
+                <form action="/admin/coupon-submit" method="post">
+                <label class="form-label mb-0" for="">Coupon Code</label>
+                <input class="form-control mb-3" name="code" type="text" required>
+                <label class="form-label mb-0" for="">Percentage</label>
+                <input class="form-control mb-3" name="percentage" min="0" max="100" type="number" required>
+                <label class="form-label mb-0" for="">Minimum Amount</label>
+                <input class="form-control mb-3" name="min" type="text" required>
+                <label class="form-label mb-0" for="">Expiry date</label>
+                <input class="form-control mb-3" name="expiry_date" type="date" required>
+                <button class="btn btn-primary" type="submit">Submit</button>
+            </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

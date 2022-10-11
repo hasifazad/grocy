@@ -1,0 +1,32 @@
+<nav class="navbar navbar-expand-lg border-bottom border-2">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="/admin">ADMIN PANEL</a>
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" ded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+
+            </ul>
+            <div class="dropdown">
+                {{#if adminName}}
+                <a class="btn btn-primary rounded-0 dropdown-toggle" style="width: 100px" type="button"
+                    data-bs-toggle="dropdown" aria-expanded="false">{{this.adminName}}</a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="/admin/logout">Logout</a></li>
+                </ul>
+                {{else}}
+                <a class="btn btn-primary rounded-0 btn-sm" style="width: 100px" href="/admin">Login </a>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+<div class="row">
+    <div class="col-2">
+        {{>admin-side-bar}}
+    </div>

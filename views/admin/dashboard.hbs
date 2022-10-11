@@ -1,0 +1,84 @@
+<div class="col-9">
+
+  <div class="row">
+    <div class="d-flex my-4">
+      <div class="card col-2 p-2 ms-5">
+        <p>Number of Users</p>
+        <h2>{{userCount}}</h2>
+      </div>
+      <div class="card col-2 p-2 ms-4">
+        <p>Number of Products</p>
+        <h2>{{productCount}}</h2>
+      </div>
+      <div class="card col-2 p-2 ms-4">
+        <p>Number of Brands</p>
+        <h2>{{brandCount}}</h2>
+      </div>
+      <div class="card col-2 p-2 ms-4">
+        <p>Number of Orders</p>
+        <h2>{{orderCount}}</h2>
+      </div>
+      <div class="card col-2 p-2 ms-4">
+        <p>Total Sales</p>
+        <h2>{{totalSale}}</h2>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="m-5 col-12">
+        <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+</div>
+
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript">
+  let a = [{{ ar }}]
+  console.log(a)
+
+  let date = new Date()
+
+  let day = []
+  date.setDate(date.getDate() + 1)
+  for (i = 0; i < 10; i++) {
+    date.setDate(date.getDate() - 1)
+    var d = date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear()
+    day.push(d)
+  }
+  console.log(day)
+  google.charts.load('current', { 'packages': ['bar'] });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['Year', 'Sales'],
+      [day[9], a[9]],
+      [day[8], a[8]],
+      [day[7], a[7]],
+      [day[6], a[6]],
+      [day[5], a[5]],
+      [day[4], a[4]],
+      [day[3], a[3]],
+      [day[2], a[2]],
+      [day[1], a[1]],
+      [day[0], a[0]],
+    ]);
+
+    var options = {
+      chart: {
+        title: 'Total Sales per day for Last 10 days',
+        subtitle: 'Sales',
+      }
+    };
+
+    var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+    chart.draw(data, google.charts.Bar.convertOptions(options));
+  }
+</script>

@@ -1,0 +1,52 @@
+<div class="col-9">
+
+    <div class="m-4">
+        <div class="row">
+            <div class="col-5">
+                <form action="/admin/edit-product/{{product._id}}" method="post" enctype="multipart/form-data">
+                    <label class="form-label mb-0" for="">Product Name</label>
+                    <input class="form-control mb-3" name="name" type="text" value="{{product.name}}">
+
+                    <label class="form-label mb-0" for="">Unit</label>
+                    <input id="unit" class="form-select mb-3" name="unit" value="{{product.unit}}">
+
+                    <label class="form-label mb-0" for="">Catergory</label>
+                     <input class="form-control mb-3" name="category" type="text" value="{{product.category}}">
+
+
+                    <label class="form-label mb-0" for="">Sub-catergory</label>
+                    <input id="subcategory" class="form-select mb-3" name="sub_category" value="{{product.sub_category}}">
+
+                    <label class="form-label mb-0 mt-3" for="">Brands</label>
+                    <input id="brand" class="form-select mb-3" name="brand" value="{{product.brand}}">
+
+
+                    <label class="form-label mb-0" for="">Price</label>
+                    <input class="form-control mb-3" name="price" type="text" value="{{product.price}}">
+
+                    <label class="form-label mb-0" for="">Description</label>
+                    <textarea class="form-control mb-3" name="description" type="text"
+                        value="">{{product.description}}</textarea>
+
+                    <label class="form-label mb-0" for="">Image</label>
+                    <input class="form-control mb-3" name="image" id="image" type="file" onchange="displayImage(event)" value="">
+
+                    <button class="form-control btn btn-success" type="submit">Edit</button>
+                </form>
+            </div>
+            <div class="col d-flex align-items-center justify-content-center border m-5">
+                <img src="/images/products/{{product.images.[0]}}" id="display_image" height="250" width="250" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</div>
+
+<script>
+    function displayImage(event) {
+        document.getElementById('display_image').src = URL.createObjectURL(event.target.files[0])
+    }
+</script>

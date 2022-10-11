@@ -1,0 +1,20 @@
+body{
+    overflow-x: hidden;
+}
+
+
+
+
+
+.error{
+    color: red;
+    visibility: hidden;
+    font-style: italic;
+    font-size: small;
+}
+
+.p{
+    height: 500px;
+    width: 400px;
+    background-color: aqua;
+}

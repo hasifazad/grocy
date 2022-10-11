@@ -1,0 +1,44 @@
+<div class="container mt-5">
+    <div class="row">
+
+        <div class="col-12 col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-auto">
+            <form id="signup_form" action="" method="">
+
+                <div class="p-5 pt-4 border bg-light ">
+                    <b id="otp-error"></b>
+                    <label class="form-label m-0" for="emailid">Email ID</label>
+                    <input class="form-control rounded-0" id="emailid" type="text" name="emailid" required
+                        onkeyup="getEmail()">
+                    <span class="error" id="e_error"></span>
+                    
+                    <br>
+
+                    <label class="form-label m-0" for="mobile">Mobile</label>
+                    <input class="form-control rounded-0" id="mobile" type="text" name="mobile" required
+                        onkeyup="getMobile()">
+                    <span class="error" id="m_error">Please enter valid mobile number</span>
+                    <br>
+
+                    <label class="form-label m-0" for="username">Username</label>
+                    <input class="form-control rounded-0" id="username" type="text" name="username" required
+                        onkeyup="getUsername()">
+                    <span class="error" id="u_error">Please enter atleast 3 characters</span>
+                    <br>
+
+                    <label class="form-label m-0" for="password">Password</label>
+                    <input class="form-control rounded-0" id="password" type="password" name="password" required
+                        onkeyup="getPassword()">
+                    <span class="error" id="p_error">Password must contain any of !@#$%^&* and 0-9</span>
+
+
+
+                    <button class="btn btn-success form-control rounded-0 mt-3" id="" type="submit"
+                        onclick="return signupValidation()">Signup</button>
+                        <br>
+                        <br>
+                    <a href="/login" style="text-decoration: none;">Already have account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

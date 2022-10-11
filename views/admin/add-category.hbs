@@ -1,0 +1,66 @@
+<div class="col-9">
+
+    <div class="m-4">
+        <div class="row">
+            <div class="col-5">
+                <form id="" action="/admin/add-category" method="post" enctype="multipart/form-data">
+                    <label class="form-label mb-0" for="">Catergory Name</label>
+                    <input class="form-control mb-3" name="category_name" type="text" required>
+
+                    <label class="form-label mb-0" for="">Sub-category</label>
+                    <button class="btn btn-primary btn-sm float-end" type="button"
+                        onclick="addCategoryInput()">Add</button>
+                    <div id="s">
+                        <input type="search" name="subcategory" class="form-control">
+                    </div>
+
+
+                    <label class="form-label mb-0 mt-3" for="">Brand</label>
+                    <button class="btn btn-primary btn-sm float-end mt-3" type="button"
+                        onclick="addBrandInput()">Add</button>
+                    <div id="b">
+                        <input type="search" name="brand" class="form-control" value="grocy">
+                    </div>
+
+                    <label class="form-label mb-0 mt-3" for="">Discount</label>
+                    <input class="form-control mb-3" name="discount" type="number" min="0" max="100" value=0>
+
+                    <label class="form-label mb-0" for="">Image</label>
+                    <input class="form-control mb-3" name="image" id="image" type="file" onchange="displayImage(event)"
+                        required>
+
+                    <button class="form-control btn btn-success" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col d-flex align-items-center justify-content-center border m-5">
+                <img src="/images/noimage.png" id="display_image" height="250" width="250" alt="">
+            </div>
+        </div>
+    </div>
+
+</div>
+</div>
+
+
+
+<script>
+    function displayImage(event) {
+        document.getElementById('display_image').src = URL.createObjectURL(event.target.files[0])
+    }
+
+    function addCategoryInput() {
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "search");
+        x.setAttribute("name", "subcategory");
+        x.setAttribute("class", "form-control my-1");
+        document.getElementById("s").appendChild(x)
+    }
+
+    function addBrandInput() {
+        var x = document.createElement("INPUT");
+        x.setAttribute("type", "search");
+        x.setAttribute("name", "brand");
+        x.setAttribute("class", "form-control my-1");
+        document.getElementById("b").appendChild(x)
+    }
+</script>

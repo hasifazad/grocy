@@ -1,0 +1,157 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <div class="d-flex mt-4 mb-2 text-center">
+                <div>
+                    <a href="/category-wise/All" class="text-decoration-none">
+                        <img src="/images/menu/vegetables.png" alt="">
+                        <p>All Items</p>
+                    </a>
+                </div>
+                {{#each categories}}
+                <div class="ms-4">
+                    <a href="/category-wise/{{this.category_name}}" class="text-decoration-none">
+                        <img src="/images/products/{{this.image}}" alt="">
+                        <p class="m-2">{{this.category_name}}</p>
+                    </a>
+                </div>
+                {{/each}}
+                {{!-- <div>
+                    <a href="/category-wise/Fruit" class="text-decoration-none">
+                        <img src="/images/menu/fruits.png" alt="">
+                        <p class="m-2">Fruits</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="/category-wise/Powder" class="text-decoration-none">
+                        <img src="/images/menu/powders.png" alt="">
+                        <p class="m-2">Powders</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="/category-wise/Pulse" class="text-decoration-none">
+                        <img src="/images/menu/pulses.png" alt="">
+                        <p class="m-2">Pulses</p>
+                    </a>
+                </div>
+                <div>
+                    <a href="/category-wise/Cookie" class="text-decoration-none">
+                        <img src="/images/menu/cookies.png" alt="">
+                        <p class="m-2">Cookies</p>
+                    </a>
+                </div>
+
+                <div>
+                    <a href="/category-wise/others" class="text-decoration-none">
+                        <img src="/images/menu/others.png" alt="">
+                        <p class="m-2">Others</p>
+                    </a>
+                </div> --}}
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="/images/banners/ban1.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/banners/ban1.png" class="d-block w-100" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="/images/banners/ban1.png" class="d-block w-100" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                    data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+
+
+        {{#each products}}
+        <div class="card m-2" style="width: 12rem;">
+            <a href="/card-details/{{this._id}}">
+                <img src="/images/products/{{this.images.[0]}}" class="card-img-top" alt="...">
+            </a>
+            <div class="card-body">
+                <h5 class="card-title">
+                    {{ this.name }}
+                </h5>
+                {{#neq this.offer_price this.price}}
+                <del class="card-text">&#8377;&nbsp;{{ this.price }} per Kg</del>
+                <p class="card-text">&#8377;&nbsp;{{this.offer_price}} per kg</p>
+                {{/neq}}
+                {{#eq this.offer_price this.price}}
+                <p class="card-text mb-0">&#8377;&nbsp;{{ this.price }} per Kg</p>
+                <p class="card-text">No offers</p>
+                {{/eq}}
+
+
+                <div class="row">
+                    <div class="col-9 p-0">
+                        {{#if this.cart}}
+                        <div>
+                            <button
+                                onclick="changeQuantity('{{this.cart_id}}','{{this._id}}','{{../../userId}}','-1','{{this.offer_price}}')"
+                                class="btn btn-success btn-sm">-</button>
+                            <span id="{{this._id}}">{{this.quantity}}</span>
+                            <button class="btn btn-sm p-0" onclick="change(){}">{{this.unit}}</button>
+                            <button
+                                onclick="changeQuantity('{{this.cart_id}}','{{this._id}}','{{../../userId}}','1','{{this.offer_price}}')"
+                                class="btn btn-success btn-sm">+</button>
+                        </div>
+                        {{else}}
+                        <button onclick="addToCart('{{../this._id}}')" class="btn btn-success btn-sm">Add to
+                            Cart</button>
+                        {{/if}}
+                    </div>
+                    <div class="col-3 p-0">
+                        {{#if this.wishlist}}
+                        <button onclick="addToWishlist('{{this._id}}')"
+                            class="btn btn-danger btn-sm border-danger fw-bold">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        {{else}}
+                        <button onclick="addToWishlist('{{this._id}}')"
+                            class="btn btn-outline-danger btn-sm float-end border-danger fw-bold">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        {{/if}}
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        {{/each}}
+
+    </div>
+</div>
+
+
+<script>
+
+</script>

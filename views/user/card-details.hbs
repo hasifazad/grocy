@@ -1,0 +1,160 @@
+<div class="container mt-5">
+    <div class="row border border-3">
+        <div class="col">
+            <img class="border my-3" src="/images/products/{{product.images.[0]}}" onclick="changeImage(this)" height="100" width="100" alt="">
+            <img class="border my-3" src="/images/products/{{product.images.[1]}}" onclick="changeImage(this)" height="100" width="100" alt="">
+            <img class="border my-3" src="/images/products/{{product.images.[2]}}" onclick="changeImage(this)" height="100" width="100" alt="">
+            <img class="border my-3" src="/images/products/{{product.images.[3]}}" onclick="changeImage(this)" height="100" width="100" alt="">
+        </div>
+        <div class="col">
+            <img id="image" src="/images/products/{{product.images.[0]}}" height="400" width="400" alt="">
+        </div>
+        <div class="col-2 mt-4">
+            {{!-- <p class="mb-0">NAME</p> --}}
+            <h4>{{product.name}}</h4>
+            <p class="mb-0 mt-4">BRAND</p>
+            <h4>{{product.brand}}</h4>
+            <p class="mb-0 mt-4">RATING</p>
+            <i class="bi bi-star"></i>
+            <i class="bi bi-star"></i>
+            <i class="bi bi-star"></i>
+            <i class="bi bi-star"></i>
+            <i class="bi bi-star"></i>
+            <h4>4.5</h4>
+            <p class="mb-0 mt-4">PRICE</p>
+            <p class="mb-0 "><del>{{product.price}} ₹</del></p>
+            <h4>{{product.offer_price}} ₹</h4>
+            {{!-- <button onclick="addToCart('{{product._id}}')" class="btn btn-primary">Add to Cart</button> --}}
+            <div class="row my-4">
+                <div class="col-9 p-0">
+                    {{#if product.cart}}
+                    <div>
+                        <button
+                            onclick="changeQuantity('{{product.cart_id}}','{{product._id}}','{{userId}}','-1','{{product.offer_price}}')"
+                            class="btn btn-success btn-sm">-</button>
+                        <span id="{{product._id}}">{{product.quantity}}</span>
+                        <button class="btn btn-sm p-0" onclick="change(){}">{{product.unit}}</button>
+                        <button
+                            onclick="changeQuantity('{{product.cart_id}}','{{product._id}}','{{userId}}','1','{{product.offer_price}}')"
+                            class="btn btn-success btn-sm">+</button>
+                    </div>
+                    {{else}}
+                    <button onclick="addToCart('{{product._id}}')" class="btn btn-success btn-sm">Add to
+                        Cart</button>
+                    {{/if}}
+                </div>
+                <div class="col-3 p-0">
+                    {{#if product.wishlist}}
+                    <button onclick="addToWishlist('{{product._id}}')"
+                        class="btn btn-danger btn-sm border-danger fw-bold">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    {{else}}
+                    <button onclick="addToWishlist('{{product._id}}')"
+                        class="btn btn-outline-danger btn-sm float-end border-danger fw-bold">
+                        <i class="bi bi-heart"></i>
+                    </button>
+                    {{/if}}
+                </div>
+            </div>
+
+        </div>
+        <div class="col">
+            <div id="result" class="img-zoom-result m-4"></div>
+        </div>
+
+    </div>
+    <div class="border p-2 my-2">
+        <h4>DESCRIPTION</h4>
+        <P>{{product.description}}</P>
+    </div>
+</div>
+
+
+
+<style>
+    .img-zoom-container {
+        position: relative;
+    }
+
+    .img-zoom-lens {
+        position: relative;
+        border: 1px solid #000000;
+        /*set the size of the lens:*/
+        width: 100px;
+        height: 100px;
+    }
+
+    .img-zoom-result {
+        border: 1px solid #d4d4d4;
+        /*set the size of the result div:*/
+        width: 400px;
+        height: 400px;
+    }
+</style>
+
+
+<script>
+    function imageZoom(imgID, resultID) {
+        var img, lens, result, cx, cy;
+        img = document.getElementById(imgID);
+        result = document.getElementById(resultID);
+        /* Create lens: */
+        lens = document.createElement("DIV");
+        lens.setAttribute("class", "img-zoom-lens");
+        /* Insert lens: */
+        img.parentElement.insertBefore(lens, img);
+        /* Calculate the ratio between result DIV and lens: */
+        cx = (result.offsetWidth / lens.offsetWidth);
+        cy = (result.offsetHeight / lens.offsetHeight);
+        /* Set background properties for the result DIV */
+        result.style.backgroundImage = "url('" + img.src + "')";
+        result.style.backgroundSize = (img.width * cx * 0.5) + "px " + (img.height * cy * 0.5) + "px";
+        /* Execute a function when someone moves the cursor over the image, or the lens: */
+        lens.addEventListener("mousemove", moveLens);
+        img.addEventListener("mousemove", moveLens);
+        /* And also for touch screens: */
+        lens.addEventListener("touchmove", moveLens);
+        img.addEventListener("touchmove", moveLens);
+        function moveLens(e) {
+            var pos, x, y;
+            /* Prevent any other actions that may occur when moving over the image */
+            e.preventDefault();
+            /* Get the cursor's x and y positions: */
+            pos = getCursorPos(e);
+            /* Calculate the position of the lens: */
+            x = pos.x - (lens.offsetWidth / 2);
+            y = pos.y - (lens.offsetHeight / 2);
+            /* Prevent the lens from being positioned outside the image: */
+            if (x > img.width - lens.offsetWidth) { x = img.width - lens.offsetWidth; }
+            if (x < 0) { x = 0; }
+            if (y > img.height - lens.offsetHeight) { y = img.height - lens.offsetHeight; }
+            if (y < 0) { y = 0; }
+            /* Set the position of the lens: */
+            lens.style.left = x + "px";
+            lens.style.top = y + "px";
+            /* Display what the lens "sees": */
+            result.style.backgroundPosition = "-" + (x * cx * 0.5) + "px -" + (y * cy * 0.5) + "px";
+        }
+        function getCursorPos(e) {
+            var a, x = 0, y = 0;
+            e = e || window.event;
+            /* Get the x and y positions of the image: */
+            a = img.getBoundingClientRect();
+            /* Calculate the cursor's x and y coordinates, relative to the image: */
+            x = e.pageX - a.left;
+            y = e.pageY - a.top;
+            /* Consider any page scrolling: */
+            x = x - window.pageXOffset;
+            y = y - window.pageYOffset;
+            return { x: x, y: y };
+        }
+    }
+
+    imageZoom("image", "result");
+
+
+    function changeImage(smallImage){
+        document.getElementById('image').src = smallImage.src
+    }
+</script>

@@ -1,0 +1,130 @@
+<div class="col-9">
+
+    <div class="m-4">
+
+        <div class="row">
+            <div class="col-5">
+                <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+                    <label class="form-label mb-0" for="">Product Name</label>
+                    <input class="form-control mb-3" name="name" type="text" required>
+
+                    <label class="form-label mb-0" for="">Unit</label>
+                    <select id="unit" class="form-select mb-3" name="unit" required>
+                        <option value="kg" selected>kg</option>
+                        <option value="nos">nos</option>
+                        <option value="Ltr">Ltr</option>
+                    </select>
+
+                    <label class="form-label mb-0" for="">Catergory</label>
+                    <select id="category" class="form-select mb-3" name="category" onchange="showCategories()" required>
+                        <option value=""></option>
+                        {{#each category}}
+                        <option value="{{this.category_name}}">{{this.category_name}}</option>
+                        {{/each}}
+                    </select>
+
+
+                    <label class="form-label mb-0" for="">Sub-catergory</label>
+                    <select id="subcategory" class="form-select mb-3" name="sub_category">
+
+                    </select>
+
+                    <label class="form-label mb-0 mt-3" for="">Brands</label>
+                    <select id="brand" class="form-select mb-3" name="brand">
+
+                    </select>
+
+                    <label class="form-label mb-0" for="">Price</label>
+                    <input class="form-control mb-3" name="price" type="number" required>
+
+                    <label class="form-label mb-0" for="">Description</label>
+                    <textarea class="form-control mb-3" name="description" type="text"></textarea>
+
+                    <label class="form-label mb-0" for="">Image</label>
+                    <input class="form-control mb-3" name="images" id="image" type="file" onchange="displayImage(event)"
+                        value="" required multiple>
+
+                    <button class="form-control btn btn-success" type="submit">Submit</button>
+                </form>
+            </div>
+            <div class="col d-flex align-items-center justify-content-center border m-5">
+                <img src="/images/noimage.png" id="display_image" height="250" width="250" alt="">
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+
+</div>
+
+<script>
+    function displayImage(event) {
+        document.getElementById('display_image').src = URL.createObjectURL(event.target.files[0])
+    }
+
+    function showCategories() {
+        var le = document.querySelectorAll('.b').length;
+        if (document.querySelector('.b')) {
+            for (i = 0; i < le; i++) {
+                document.querySelector('.b').remove()
+            }
+        }
+
+        var select = document.getElementById('category');
+        var value = select.options[select.selectedIndex].value;
+
+        var me = document.querySelectorAll('.c').length;
+        if (document.querySelector('.c')) {
+            for (i = 0; i < me; i++) {
+                document.querySelector('.c').remove()
+            }
+        }
+
+        var select = document.getElementById('category');
+        var value = select.options[select.selectedIndex].value;
+
+        fetch('/admin/take', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ value })
+        }).then((res) => {
+            console.log(res)
+            return res.json()
+        }).then((data) => {
+            console.log(data)
+            l = data.cat.brand.length
+            for (i = 0; i < l; i++) {
+                var x = document.getElementById("brand");
+                var y = document.createElement("OPTION");
+
+                y.setAttribute('label', data.cat.brand[i]);
+                y.setAttribute('value', data.cat.brand[i]);
+                y.setAttribute("class", "b");
+                y.setAttribute("id", "b");
+                y.setAttribute("name", "brand");
+                //x.setAttribute("class", "form-control my-1");
+                x.appendChild(y)
+            }
+
+            m = data.cat.subcategory.length
+            for (i = 0; i < m; i++) {
+                var u = document.getElementById("subcategory");
+                var v = document.createElement("OPTION");
+
+                v.setAttribute('label', data.cat.subcategory[i]);
+                v.setAttribute('value', data.cat.subcategory[i]);
+                v.setAttribute("class", "c");
+                v.setAttribute("id", "c");
+                v.setAttribute("name", "sub_category");
+                //x.setAttribute("class", "form-control my-1");
+                u.appendChild(v)
+            }
+        })
+    }
+</script>

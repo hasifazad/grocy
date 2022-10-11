@@ -1,0 +1,35 @@
+{{!-- admin signup --}}
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-9 col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-auto">
+            <form id="signup_form" action="" method="">
+                <div class="p-5 pt-4 border bg-light">
+                    <label class="form-label m-0" for="emailid">Email ID</label>
+                    <input class="form-control rounded-0" id="emailid" type="text" name="emailid" required
+                        onkeyup="getEmail()">
+                    <span class="error" id="e_error"></span>
+                    <br>
+
+
+                    <label class="form-label m-0" for="username">User name</label>
+                    <input class="form-control rounded-0" id="username" type="text" name="username" required
+                        onkeyup="getUserName()">
+                    <span class="error" id="u_error"></span><br>
+
+                    <label class="form-label m-0" for="password">Password</label>
+                    <input class="form-control rounded-0" id="password" type="password" name="password" required
+                        onkeyup="getPassword()">
+                    <span class="error" id="p_error"></span><br>
+
+                    <button class="btn btn-outline-primary form-control rounded-0" id="liveToastBtn" type="submit"
+                        onclick="return adminSignupValidation()">Signup</button>
+                        <br>
+                        <br>
+
+                    <a href="/admin" style="text-decoration: none;">Already have account</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

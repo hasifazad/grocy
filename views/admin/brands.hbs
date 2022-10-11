@@ -1,0 +1,90 @@
+<div class="col-9">
+
+    <div class="my-4">
+        <div class="row">
+            <div class="col-3">
+                <input class="form-control" id="search" onkeyup="myFunction()" type="search" placeholder="Search">
+            </div>
+            <div class="col-9">
+                <a href="#" class="btn btn-success float-end">ADD BRAND</a>
+            </div>
+        </div>
+    </div>
+
+    {{#if brands}}
+    <table class="table table-hover border">
+        <thead>
+            <tr>
+                <th scope="col">Sl.No</th>
+                <th scope="col">BRAND</th>
+                <th scope="col">DISCOUNT %</th>
+                <th scope="col">ENTER DISCOUNT RATE</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each brands}}
+            <tr>
+                <th scope="row">{{this.sl_no}}</th>
+                <td>{{this.brand}}</td>
+                <td class="" id="dis{{this._id}}">{{this.discount}}</td>
+                <form onsubmit="changeDiscount('{{this._id}}','{{this.brand}}')">
+                    <td class="d-flex">
+                        <input id="discount{{this._id}}" class="form-control mx-1" style="width:70px" type="number"
+                            max='100' min='0' value="" required>
+                        <button type="submit" class="btn btn-primary mx-1">Submit</button>
+                    </td>
+                </form>
+                <td>
+                    <button class="btn btn-danger"
+                        onclick="deleteBrand('{{this._id}}','{{this.brand}}')">Delete</button>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+    {{else}}
+    <h1>empty</h1>
+    {{/if}}
+
+</div>
+
+</div>
+
+
+<script>
+    function changeDiscount(brandId, brandName) {
+        onsubmit = (e) => {
+            e.preventDefault()
+            console.log(brandId)
+            let percent = document.getElementById('discount' + brandId).value
+            fetch('/admin/change-discount', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json;charset=utf-8'
+                },
+                body: JSON.stringify({ brandName, brandId, percent })
+            }).then((res) => {
+                return res.json({})
+            }).then((data) => {
+                document.getElementById('dis' + brandId).innerHTML = percent
+            })
+        }
+    }
+
+
+    function deleteBrand(brandId, brandName) {
+        fetch('/admin/delete-brand', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ brandId, brandName })
+        }).then((res) => {
+            return res.json({})
+        }).then((data) => {
+            location.reload()
+        })
+    }
+</script>

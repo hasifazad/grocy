@@ -1,0 +1,161 @@
+<div class="col-9">
+    <div class="row">
+
+        <div class="col-5 mt-4">
+
+            <form action="/admin/get-day-sales" method="post" id="form1">
+                <div class="row my-2">
+                    <input type="text" name="duration" value="day" hidden>
+                    <div class="col-6">
+                        <input class="form-control" type="date" name="time_period" id="day" value="">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            <form action="/admin/get-day-sales" method="post" id="form2">
+                <div class="row my-2">
+                    <input type="text" name="duration" value="month" hidden>
+                    <div class="col-6">
+                        <input class="form-control" type="month" name="time_period" id="month">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+
+            <form action="/admin/get-day-sales" method="post" id="form3">
+                <div class="row my-2">
+                    <input type="text" name="duration" value="year" hidden>
+                    <div class="col-6">
+                        <input class="form-control" type="number" name="time_period" id="year" min="2000" max="2022">
+                    </div>
+                    <div class="col">
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col mt-4">
+            <div class="row">
+                <div class="card col-3 p-2 ms-4">
+                    <p>Number of Orders</p>
+                    <h2>{{orderCount}}</h2>
+                </div>
+                <div class="card col-3 p-2 ms-4">
+                    <p>Total Sales</p>
+                    <h2>{{totalSale}}</h2>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-2 my-4">
+            <a class="btn btn-outline-secondary" href="/admin/download">Download</a>
+        </div>
+
+        <table class="table table-hover border mt-3">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Amount</th>
+
+                </tr>
+            </thead>
+            <tbody id="freek">
+                {{#each data}}
+                <tr>
+                    <th>{{this._id}}</th>
+                    <td>{{this.user.user}}</td>
+                    <td>{{this.offer_amount}}</td>
+
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+
+
+
+    </div>
+    
+</div>
+
+
+</div>
+
+
+{{!--
+<script>
+
+    form1.onsubmit = (e) => {
+        e.preventDefault()
+
+        let a = new FormData(form1)
+        let [v] = [...a.values()]
+        console.log(v)
+
+        fetch('/admin/get-day-sales', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ v, duration: 'day' })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            console.log(data)
+            for (i = 0; i < data.a.length; i++) {
+                let v = document.getElementById('freek')
+                v.
+            }
+            document.getElementById('username').innerHTML = data.user.user
+        })
+    }
+
+    form2.onsubmit = (e) => {
+        e.preventDefault()
+
+        let a = new FormData(form2)
+        let [v] = [...a.values()]
+        console.log(v)
+
+        fetch('/admin/get-day-sales', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ v })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            alert()
+        })
+    }
+
+    form3.onsubmit = (e) => {
+        e.preventDefault()
+
+        let a = new FormData(form3)
+        let [v] = [...a.values()]
+        console.log(v)
+
+        fetch('/admin/get-day-sales', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({ v })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            alert()
+        })
+    }
+
+
+
+</script> --}}

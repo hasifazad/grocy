@@ -1,0 +1,94 @@
+<div class="container">
+    <div class="row">
+        {{>user-profile-menu}}
+        <div class="col-6">
+            <form id="address_form" action="/save-address" method="post" class="row g-3 p-5 pt-1 mt-4 border">
+                <input type="text" name="address_no" id="address_no" value="" hidden>
+                <div class="col-12">
+                    <label for="housename" class="form-label">House Name/No.</label>
+                    <input type="text" class="form-control" id="housename" name="housename" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="locality" class="form-label">Locality/Street</label>
+                    <input type="text" class="form-control" id="locality" name="locality" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="landmark" class="form-label">Landmark</label>
+                    <input type="text" class="form-control" id="landmark" name="landmark" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="city" class="form-label">City/Town</label>
+                    <input type="text" class="form-control" id="city" name="city" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="district" class="form-label">District</label>
+                    <input type="text" class="form-control" id="district" name="district" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="country" class="form-label">Country</label>
+                    <input type="text" class="form-control" id="country" name="country" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="state" class="form-label">State</label>
+                    <select id="state" class="form-select" name="state" required>
+                        <option selected>Choose</option>
+                        <option>kerala</option>
+                        <option>tamilnadu</option>
+                        <option>karnataka</option>
+                        <option>telengana</option>
+                        <option>andrapradesh</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <label for="pincode" class="form-label">Pin</label>
+                    <input type="text" class="form-control" id="pincode" name="pincode" required>
+                </div>
+                <div class="col-12">
+                    <button id="s" type="submit" class="btn btn-primary">Add</button>
+                </div>
+            </form>
+            <div>
+                {{#each userAddressData}}
+                <div class="row">
+                    <div class="col border p-2 my-2">
+                        <p>{{this.housename}}</p>
+                        <p>{{this.locality}}</p>
+                        <p>{{this.city}}</p>
+                        <div class="float-end">
+                            <button class="btn btn-primary" onclick="getAddress('{{this.address_no}}')">Edit</button>
+                            <a href="/remove-address/{{this.address_no}}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function getAddress(address_no) {
+        fetch('/getaddress', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json;charset=utf-8'
+            },
+            body: JSON.stringify({
+                address_no
+            })
+        }).then((res) => {
+            return res.json()
+        }).then((data) => {
+            document.getElementById('address_no').value = data.address.address_no
+            document.getElementById('housename').value = data.address.housename
+            document.getElementById('locality').value = data.address.locality
+            document.getElementById('landmark').value = data.address.landmark
+            document.getElementById('city').value = data.address.city
+            document.getElementById('country').value = data.address.country
+            document.getElementById('district').value = data.address.district
+            document.getElementById('pincode').value = data.address.pincode
+            document.getElementById('s').innerHTML = 'Submit'
+        })
+    }
+</script>

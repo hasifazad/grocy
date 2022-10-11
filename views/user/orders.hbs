@@ -1,0 +1,48 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <p class="mt-2 text-secondary">ORDERS ></p>
+            <table class="table table-hover border mt-3">
+                <thead>
+                    <tr>
+                        <th scope="col">Sl.No.</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Status</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each orders}}
+                    <tr>
+                        <th scope="row">{{this.sl_no}}</th>
+                        <td>{{this.ordered_on}}</td>
+                        <td>{{this.delivery_details.housename}}</td>
+                        <td>{{this.delivery_details.mobile}}</td>
+                        <td>{{this.payment}}</td>
+                        <td>{{this.status}}</td>
+                        <td>
+                            <a href="/view-order-product/{{this._id}}" class="btn btn-primary">view details</a>
+                            {{#eq this.status 'ordered'}}
+                            <a href="/remove-order/{{this._id}}/{{this.offer_amount}}" onclick="return confirm('Do you want to delete the order')"  class="btn btn-danger">Cancel</a>
+                            {{/eq}}
+                            {{#eq this.status 'shipped'}}
+                            <button class="btn btn-danger" disabled>Return</button>
+                            {{/eq}}
+                            {{#eq this.status 'deliverd'}}
+                            <a href="/remove-order/{{this._id}}/{{this.offer_amount}}" onclick="return confirm('Do you want to delete the order')"  class="btn btn-warning">Return</a>
+                            {{/eq}}
+                            {{#eq this.status 'cancelled'}}
+                            {{!-- <button class="btn btn-danger" disabled>Return</button> --}}
+                            {{/eq}}
+                        </td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
