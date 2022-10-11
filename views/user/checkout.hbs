@@ -5,49 +5,39 @@
             <form class="row g-3 border p-3 mt-3">
                 <div class="col-md-6">
                     <label for="" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="emailid" value="{{userDetails.emailid}}" disabled
-                        required>
+                    <input type="email" class="form-control" id="emailid" value="{{userDetails.emailid}}" required>
                 </div>
                 <div class="col-md-6">
                     <label for="" class="form-label">Mobile</label>
-                    <input type="text" class="form-control" id="mobile" value="{{userDetails.mobile}}" disabled
-                        required>
+                    <input type="text" class="form-control" id="mobile" value="{{userDetails.mobile}}" required>
                 </div>
                 <div class="col-12">
                     <label for="" class="form-label">House Name/No.</label>
-                    <input type="text" class="form-control" id="housename" value="{{userAddress.address.[0].housename}}"
-                        disabled required>
+                    <input type="text" class="form-control" id="housename" value="{{userAddress.address.[0].housename}}" required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Locality</label>
-                    <input type="text" class="form-control" id="locality" value="{{userAddress.address.[0].locality}}"
-                        disabled required>
+                    <input type="text" class="form-control" id="locality" value="{{userAddress.address.[0].locality}}" required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Landmark</label>
-                    <input type="text" class="form-control" id="landmark" value="{{userAddress.address.[0].landmark}}"
-                        disabled required>
+                    <input type="text" class="form-control" id="landmark" value="{{userAddress.address.[0].landmark}}" required>
                 </div>
                 <div class="col-md-6">
                     <label for="" class="form-label">City/Town</label>
-                    <input type="text" class="form-control" id="city" value="{{userAddress.address.[0].city}}" disabled
+                    <input type="text" class="form-control" id="city" value="{{userAddress.address.[0].city}}"
                         required>
                 </div>
                 <div class="col-md-4">
                     <label for="" class="form-label">District</label>
-                    <select id="district" class="form-select" disabled required>
+                    <select id="district" class="form-select" required>
                         <option selected>{{userAddress.address.[0].district}}</option>
                         <option>Tamil Nadu</option>
                     </select>
                 </div>
                 <div class="col-md-2">
                     <label for="" class="form-label">Pincode</label>
-                    <input type="text" class="form-control" id="pincode" value="{{userAddress.address.[0].pincode}}"
-                        disabled required>
-                </div>
-                <div class="col-12">
-
-                    <button class="btn btn-primary float-end" type="button" onclick="dis('edit')">Edit</button>
+                    <input type="text" class="form-control" id="pincode" value="{{userAddress.address.[0].pincode}}" required>
                 </div>
             </form>
         </div>
@@ -265,37 +255,6 @@
             document.getElementById('district').value = data.address.district
             document.getElementById('pincode').value = data.address.pincode
         })
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    function dis(btn) {
-        if (btn == 'edit') {
-            var status = false
-        } else {
-            var status = true
-        }
-        console.log(status)
-        document.getElementById('email').disabled = status
-        document.getElementById('mobile').disabled = status
-        document.getElementById('housename').disabled = status
-        document.getElementById('locality').disabled = status
-        document.getElementById('landmark').disabled = status
-        document.getElementById('city').disabled = status
-        document.getElementById('district').disabled = status
-        document.getElementById('pincode').disabled = status
-        document.getElementById('submit').disabled = status
     }
 
 
