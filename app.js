@@ -19,6 +19,7 @@ const app = express()
 const db = require("./config/connection.js")
 db.connectDb((err) => {
     if (err) {
+        console.log(err);
         console.log('db error');
     } else {
         console.log('database connected');
