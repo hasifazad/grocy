@@ -475,7 +475,6 @@ router.post('/coupon-check',verifyLogin, async (req, res) => {
 // -----------------------------------------------------------------//
 router.post('/checkout', verifyLogin, async (req, res) => {
     let orderDetails = req.body
-    console.log(orderDetails);
    
     let orderPlaced = await userHelpers.setOrders(userId, orderDetails)
 

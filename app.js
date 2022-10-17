@@ -33,7 +33,11 @@ app.use(express.static('public'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
-app.use(session({ name: "user-loggedin", secret: "userkey", cookie: { maxAge: 1000 * 60 * 60 } }))
+app.use(session({
+    name: "user-loggedin", secret: "userkey", cookie: { maxAge: 1000 * 60 * 60 },
+    resave: false,
+    saveUninitialized: true
+}))
 // app.use(fileUpload())
 let habs = hbs.create({})
 habs.handlebars.registerHelper('eq', function (arg1, arg2, options) {

@@ -3,7 +3,6 @@ const yup = require("yup")
 
 
 const userLoginValidation = async(req,res,next)=>{
-    console.log(req.body);
     try {
         await yup.object({
             emailid : yup.string().email().required(),
@@ -12,13 +11,11 @@ const userLoginValidation = async(req,res,next)=>{
 
         return next()
     } catch (err) {
-        console.log(err);
         res.json({error:err.errors[0]})
     }
 }
 
 const userSignupValidation = async(req,res,next)=>{
-    console.log(req.body);
     try {
         await yup.object({
             emailid : yup.string().email().required(),
@@ -29,7 +26,6 @@ const userSignupValidation = async(req,res,next)=>{
 
         return next()
     } catch (err) {
-        console.log(err);
         res.json({error:err.errors[0]})
     }
 }
