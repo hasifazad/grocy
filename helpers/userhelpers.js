@@ -6,7 +6,7 @@ const paypal = require('paypal-rest-sdk')
 const crypto = require('crypto')
 const { resolve } = require("path")
 
-const options ={
+const options = {
     'mode': 'sandbox',
     'client_id': process.env.PAYPAL_CLIENT_ID,
     'client_secret': process.env.PAYPAL_CLIENT_SECRET
@@ -25,6 +25,7 @@ let instance = new razorpay(rzp)
 
 async function doSignup(userData) {
     let response = await db.get().collection('users').findOne({ $or: [{ emailid: userData.emailid }, { mobile: userData.mobile }] })
+        
 
     if (response === null) {
         userData.password = await bcrypt.hash(userData.password, 10)
@@ -63,7 +64,7 @@ async function getAllProducts() {
 
 }
 async function getAllCategories() {
-    return await db.get().collection('categories').find({}, { projection: { category_name: true,image:true } }).toArray()
+    return await db.get().collection('categories').find({}, { projection: { category_name: true, image: true } }).toArray()
 }
 
 async function getProduct(productId) {
@@ -328,7 +329,7 @@ async function setOrders(userId, orderDetails) {
         coupon_applied: orderDetails.couponApplied,
         ordered_on: new Date()
     }
-    
+
     await db.get().collection('coupons').updateOne({ code: order.coupon_applied }, { $addToSet: { users_used: ObjectId(userId) } })
     return await db.get().collection('orders').insertOne(order)
 }
@@ -546,7 +547,7 @@ async function viewOrderProduct(orderId) {
 async function couponCheck(userId, code, total) {
     return db.get().collection('coupons').findOne({ code: code, status: true }).then((res) => {
         if (res) {
-            return db.get().collection('coupons').findOne({code:code, users_used: { $elemMatch: { $eq: ObjectId(userId) } } }).then((resp) => {
+            return db.get().collection('coupons').findOne({ code: code, users_used: { $elemMatch: { $eq: ObjectId(userId) } } }).then((resp) => {
                 if (resp) {
                     return 'coupon used'
                 } else {
@@ -584,7 +585,9 @@ async function createWallet(userId) {
 async function getWallet(userId) {
     return await db.get().collection('wallets').find({ user_id: ObjectId(userId) }).project({ amount: true }).toArray()
 }
-
+async function getCoupon() {
+    return await db.get().collection('coupons').find().toArray()
+}
 
 
 
@@ -593,6 +596,7 @@ async function getWallet(userId) {
 
 module.exports = {
     getWallet,
+    getCoupon,
     createWallet,
     doSignup,
     doOtpLogin,

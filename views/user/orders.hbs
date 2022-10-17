@@ -27,13 +27,24 @@
                         <td>
                             <a href="/view-order-product/{{this._id}}" class="btn btn-primary">view details</a>
                             {{#eq this.status 'ordered'}}
-                            <a href="/remove-order/{{this._id}}/{{this.offer_amount}}" onclick="return confirm('Do you want to delete the order')"  class="btn btn-danger">Cancel</a>
+
+                            {{#eq this.payment 'COD'}}
+                            <button onclick="conf('{{this._id}}',0)" class="btn btn-danger">Cancel</button>
                             {{/eq}}
+                            {{#neq this.payment 'COD'}}
+                            <button onclick="conf('{{this._id}}','{{this.offer_amount}}')"
+                                class="btn btn-danger">Cancel</button>
+                            {{/neq}}
+
+                            {{/eq}}
+
                             {{#eq this.status 'shipped'}}
                             <button class="btn btn-danger" disabled>Return</button>
                             {{/eq}}
                             {{#eq this.status 'deliverd'}}
-                            <a href="/remove-order/{{this._id}}/{{this.offer_amount}}" onclick="return confirm('Do you want to delete the order')"  class="btn btn-warning">Return</a>
+                            <a href="/remove-order/{{this._id}}/{{this.offer_amount}}"
+                                onclick="return confirm('Do you want to delete the order')"
+                                class="btn btn-warning">Return</a>
                             {{/eq}}
                             {{#eq this.status 'cancelled'}}
                             {{!-- <button class="btn btn-danger" disabled>Return</button> --}}
@@ -46,3 +57,35 @@
         </div>
     </div>
 </div>
+
+<script>
+    function conf(orderId, offerAmount) {
+        swal({
+            title: "Are you sure?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        }).then((willDelete) => {
+            if (willDelete) {
+                fetch(`/remove-order/${orderId}/${offerAmount}`)
+                    .then((res) => {
+                        return res.json()
+                    })
+                    .then(() => {
+                        swal("Poof! Your imaginary file has been deleted!", {
+                            icon: "success",
+                        }).then((isConfirmed) => {
+                            location.reload()
+                        });
+
+                    })
+
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
+    }
+
+
+</script>

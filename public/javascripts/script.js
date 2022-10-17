@@ -6,7 +6,7 @@ function getEmail() {
     let mailCheck = mailId.match(mailFormat)
 
     if (mailCheck === null || mailId === "") {
-        document.getElementById("e_error").innerHTML = "incorrect email"
+        document.getElementById("e_error").innerHTML = "Please enter a valid email"
         document.getElementById("e_error").style.visibility = "visible"
         return false
     } else {
@@ -38,6 +38,7 @@ function getUsername() {
     let userNameCheck = userName.match(userNameFormat)
 
     if (userNameCheck === null || userName.length <= 2) {
+        document.getElementById("u_error").innerHTML = "Please enter atleast 3 characters"
         document.getElementById("u_error").style.visibility = "visible"
         return false
     } else {
@@ -160,7 +161,11 @@ function loginValidation() {
                         document.getElementById("e_error").style.visibility = "visible"
                     }
                 } else {
-                    document.getElementById('e_error').innerHTML = 'password or email is incorrect'
+                    if(data.error){
+                        document.getElementById('e_error').innerHTML = data.error
+                    }else{
+                        document.getElementById('e_error').innerHTML = 'password or email is incorrect'
+                    }
                     document.getElementById("e_error").style.visibility = "visible"
                 }
             })
@@ -386,7 +391,6 @@ function changeQuantity(cartId, productId, userId, count, price) {
     }).then((data) => {
         console.log(data);
         if (data.response == 'product removed') {
-            alert('product removed')
             location.reload()
         } else {
             document.getElementById(productId).innerHTML = quantity + count

@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="row">
+        {{>user-profile-menu}}
+        <div class="col-6">
+
+            <div class="row p-5">
+                {{#each coupons}}
+                <div class="col-5">
+                    <div class="card">
+                        <div class="card-body pb-1 pe-1">
+                            <h5 class="card-title">{{this.code}}</h5>
+                            <p class="card-text mb-0">{{this.name}}</p>
+                            <p class="card-text mb-0">{{this.percentage}} %</p>
+                            <p class="card-text mb-0">{{this.expiry_date}}</p>
+                            {{!-- <a href="/admin/delete-coupon/{{this._id}}"
+                                class="btn btn-outline-danger py-0 px-1 float-end">
+                                <i class="bi bi-trash3"></i>
+                            </a> --}}
+                        </div>
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</div>

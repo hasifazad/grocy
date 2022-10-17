@@ -27,6 +27,7 @@
     "paypal-rest-sdk": "^1.8.1",
     "puppeteer": "^18.0.5",
     "razorpay": "^2.8.3",
-    "twilio": "^3.81.0"
+    "twilio": "^3.81.0",
+    "yup": "^0.32.11"
   }
 }

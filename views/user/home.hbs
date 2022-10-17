@@ -1,52 +1,54 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <div class="d-flex mt-4 mb-2 text-center">
-                <div>
-                    <a href="/category-wise/All" class="text-decoration-none">
-                        <img src="/images/menu/vegetables.png" alt="">
-                        <p>All Items</p>
-                    </a>
-                </div>
-                {{#each categories}}
-                <div class="ms-4">
-                    <a href="/category-wise/{{this.category_name}}" class="text-decoration-none">
-                        <img src="/images/products/{{this.image}}" alt="">
-                        <p class="m-2">{{this.category_name}}</p>
-                    </a>
-                </div>
-                {{/each}}
-                {{!-- <div>
-                    <a href="/category-wise/Fruit" class="text-decoration-none">
-                        <img src="/images/menu/fruits.png" alt="">
-                        <p class="m-2">Fruits</p>
-                    </a>
-                </div>
-                <div>
-                    <a href="/category-wise/Powder" class="text-decoration-none">
-                        <img src="/images/menu/powders.png" alt="">
-                        <p class="m-2">Powders</p>
-                    </a>
-                </div>
-                <div>
-                    <a href="/category-wise/Pulse" class="text-decoration-none">
-                        <img src="/images/menu/pulses.png" alt="">
-                        <p class="m-2">Pulses</p>
-                    </a>
-                </div>
-                <div>
-                    <a href="/category-wise/Cookie" class="text-decoration-none">
-                        <img src="/images/menu/cookies.png" alt="">
-                        <p class="m-2">Cookies</p>
-                    </a>
-                </div>
+            <div class="">
+                <div class="d-flex mt-4 mb-2 text-center" style="overflow-x:auto">
+                    <div class="ms-4">
+                        <a href="/category-wise/All" class="text-decoration-none">
+                            <img src="/images/menu/vegetables.png" class="img-fluid" alt="">
+                            <p class="m-2">All Items</p>
+                        </a>
+                    </div>
+                    {{#each categories}}
+                    <div class="ms-4">
+                        <a href="/category-wise/{{this.category_name}}" class="text-decoration-none">
+                            <img src="/images/products/{{this.image}}" class="img-fluid" alt="">
+                            <p class="m-2">{{this.category_name}}</p>
+                        </a>
+                    </div>
+                    {{/each}}
+                    {{!-- <div>
+                        <a href="/category-wise/Fruit" class="text-decoration-none">
+                            <img src="/images/menu/fruits.png" alt="">
+                            <p class="m-2">Fruits</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/category-wise/Powder" class="text-decoration-none">
+                            <img src="/images/menu/powders.png" alt="">
+                            <p class="m-2">Powders</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/category-wise/Pulse" class="text-decoration-none">
+                            <img src="/images/menu/pulses.png" alt="">
+                            <p class="m-2">Pulses</p>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="/category-wise/Cookie" class="text-decoration-none">
+                            <img src="/images/menu/cookies.png" alt="">
+                            <p class="m-2">Cookies</p>
+                        </a>
+                    </div>
 
-                <div>
-                    <a href="/category-wise/others" class="text-decoration-none">
-                        <img src="/images/menu/others.png" alt="">
-                        <p class="m-2">Others</p>
-                    </a>
-                </div> --}}
+                    <div>
+                        <a href="/category-wise/others" class="text-decoration-none">
+                            <img src="/images/menu/others.png" alt="">
+                            <p class="m-2">Others</p>
+                        </a>
+                    </div> --}}
+                </div>
             </div>
         </div>
     </div>

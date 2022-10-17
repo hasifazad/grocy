@@ -2,57 +2,58 @@
   <div class="row mt-5">
     <div class="col-12">
       {{#if products}}
-      <table class="table border">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">NAME</th>
-            <th></th>
-            <th scope="col">CATEGORY</th>
-            <th scope="col">PRICE</th>
-            <th scope="col">QUANTITY</th>
-            <th scope="col">TOTAL</th>
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          {{#each products}}
-          <tr>
-            <th scope="row">{{this.sl_no}}</th>
-            <td>{{this.products.name}}</td>
-            <td><img src="/images/products/{{this.products.images.[0]}}" height="50" width="50" alt=""></td>
-            <td>{{this.products.category}}</td>
-            <td>{{this.products.offer_price}}</td>
-            <td>
-              <button
-                onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{../userId}}','-1','{{this.products.offer_price}}')"
-                class="btn btn-primary">-</button>
-              <span id="{{this.products._id}}">{{this.quantity}}</span>
-              <button class="btn p-0" onclick="change(){}">{{this.products.unit}}</button>
-              <button
-                onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{../userId}}','1','{{this.products.offer_price}}')"
-                class="btn btn-primary">+</button>
-            </td>
-            <td id="total-{{this.products._id}}">{{this.total}}</td>
-            <td>
-              <a href="/remove-cart-product/{{this.products._id}}" class="btn btn-danger"
-                onclick="return confirm('Are you sure?')">Remove</a>
-            </td>
-          </tr>
-          {{/each}}
-          <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td id="total" style="font-weight:500;font-size:larger">{{total.total}}</td>
-            <td>
-              <a class="btn btn-success" href="/place-order">PLACE ORDER</a>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="">
+        <table class="table border">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">NAME</th>
+              <th scope="col"></th>
+              <th scope="col">CATEGORY</th>
+              <th scope="col">PRICE</th>
+              <th scope="col">QUANTITY</th>
+              <th scope="col">TOTAL</th>
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {{#each products}}
+            <tr>
+              <th scope="row">{{this.sl_no}}</th>
+              <td scope="row">{{this.products.name}}</td>
+              <td scope="row"><img src="/images/products/{{this.products.images.[0]}}" height="50" width="50" alt=""></td>
+              <td scope="row">{{this.products.category}}</td>
+              <td scope="row">{{this.products.offer_price}}</td>
+              <td scope="row">
+                <button
+                  onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{../userId}}','-1','{{this.products.offer_price}}')"
+                  class="btn btn-primary">-</button>
+                <span id="{{this.products._id}}">{{this.quantity}}</span>
+                <button class="btn p-0" onclick="change(){}">{{this.products.unit}}</button>
+                <button
+                  onclick="changeQuantity('{{this._id}}','{{this.products._id}}','{{../userId}}','1','{{this.products.offer_price}}')"
+                  class="btn btn-primary">+</button>
+              </td>
+              <td scope="row" id="total-{{this.products._id}}">{{this.total}}</td>
+              <td scope="row">
+                <button class="btn btn-danger" onclick="removeProduct('{{this.products._id}}')">Remove</button>
+              </td>
+            </tr>
+            {{/each}}
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td id="total" style="font-weight:500;font-size:larger">{{total.total}}</td>
+              <td>
+                <a class="btn btn-success" href="/place-order">PLACE ORDER</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       {{else}}
       <div class="border m-5 p-5">
         <h4 class="text-center">Cart is Empty</h4>
@@ -61,3 +62,29 @@
     </div>
   </div>
 </div>
+
+<script>
+  function removeProduct(productId) {
+    swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this imaginary file!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    })
+      .then((willDelete) => {
+        if (willDelete) {
+          fetch(`/remove-cart-product/${productId}`)
+            .then((res) => {
+              return res.json()
+            })
+            .then(() => {
+              location.reload()
+            })
+
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      });
+  }
+</script>

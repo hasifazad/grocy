@@ -3,6 +3,8 @@ const router = express.Router()
 const ObjectId = require("mongodb").ObjectId
 
 const userHelpers = require("../helpers/userhelpers.js")
+const userLoginValidation = require('../middleware/validation.js')
+const userSignupValidation = require('../middleware/validation.js')
 
 const accountSid = process.env.ACCOUNT_SID
 const authToken = process.env.AUTH_TOKEN
@@ -13,8 +15,7 @@ const client = require('twilio')(accountSid, authToken);
 
 
 
-let userName
-let userId
+
 
 const verifyLogin = (req, res, next) => {
     if (req.session.userLoggedIn && req.session.userStatus) {
@@ -120,7 +121,7 @@ router.get('/otp-login', verifyLogin, (req, res) => {
 // ======================               POST REQUESTS              =====================//====================================================//
 // =====================================================================================//====================================================//
 
-router.post('/signup', async (req, res) => {
+router.post('/signup',userSignupValidation, async (req, res) => {
     let userData = req.body
 
     userData.status = true
@@ -142,7 +143,7 @@ router.post('/signup', async (req, res) => {
     }
 })
 
-router.post('/login', async (req, res) => {
+router.post('/login',userLoginValidation, async (req, res) => {
     let userData = req.body
 
     let user = await userHelpers.doLogin(userData)
@@ -238,8 +239,9 @@ router.get('/cart', verifyUserLogin,verifyLogin, async (req, res) => {
 
 router.get('/remove-cart-product/:id',verifyLogin, async (req, res) => {
     let productId = req.params.id
+  
     await userHelpers.removeCartProduct(productId, userId)
-    res.redirect('/cart')
+    res.json({})
 })
 
 router.post('/add-to-cart', verifyUserLogin,verifyLogin, async (req, res) => {
@@ -307,7 +309,7 @@ router.get('/card-details/:id',verifyLogin, async (req, res) => {
 //================================    USER PROILE    ============================//
 //===============================================================================//
 
-router.get('/user-profile/:p',verifyLogin, async (req, res) => {
+router.get('/user-profile/:p',verifyUserLogin,verifyLogin, async (req, res) => {
     if (req.params.p == 'personal') {
         let userData = await userHelpers.getProfileDetails(userId)
         res.render('user/profile-personal', { userName, userData })
@@ -319,6 +321,10 @@ router.get('/user-profile/:p',verifyLogin, async (req, res) => {
         let [walletAmount] = await userHelpers.getWallet(userId)
         
         res.render('user/profile-wallet', { userName, amount: walletAmount.amount })
+    }else if(req.params.p == 'coupon'){
+        let coupons = await userHelpers.getCoupon()
+        
+        res.render('user/profile-coupon', { userName, coupons })
     }
 })
 
@@ -369,7 +375,7 @@ router.get('/remove-order/:id/:amount',verifyLogin, async (req, res) => {
     let refundAmount = req.params.amount
     
     let a = await userHelpers.removeOrder(userId,orderId,refundAmount)
-    res.redirect('/user-orders')
+    res.json({})
 })
 
 
@@ -469,6 +475,7 @@ router.post('/coupon-check',verifyLogin, async (req, res) => {
 // -----------------------------------------------------------------//
 router.post('/checkout', verifyLogin, async (req, res) => {
     let orderDetails = req.body
+    console.log(orderDetails);
    
     let orderPlaced = await userHelpers.setOrders(userId, orderDetails)
 
@@ -526,12 +533,6 @@ router.post('/getaddress', verifyUserLogin,verifyLogin, async (req, res) => {
     let address = await userHelpers.getAddress(req.body.address_no, userId)
     res.json({ address })
 })
-
-
-
-
-
-
 
 
 

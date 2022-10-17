@@ -13,20 +13,22 @@
                 </div>
                 <div class="col-12">
                     <label for="" class="form-label">House Name/No.</label>
-                    <input type="text" class="form-control" id="housename" value="{{userAddress.address.[0].housename}}" required>
+                    <input type="text" class="form-control" id="housename" value="{{userAddress.address.[0].housename}}"
+                        required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Locality</label>
-                    <input type="text" class="form-control" id="locality" value="{{userAddress.address.[0].locality}}" required>
+                    <input type="text" class="form-control" id="locality" value="{{userAddress.address.[0].locality}}"
+                        required>
                 </div>
                 <div class="col-6">
                     <label for="" class="form-label">Landmark</label>
-                    <input type="text" class="form-control" id="landmark" value="{{userAddress.address.[0].landmark}}" required>
+                    <input type="text" class="form-control" id="landmark" value="{{userAddress.address.[0].landmark}}"
+                        required>
                 </div>
                 <div class="col-md-6">
                     <label for="" class="form-label">City/Town</label>
-                    <input type="text" class="form-control" id="city" value="{{userAddress.address.[0].city}}"
-                        required>
+                    <input type="text" class="form-control" id="city" value="{{userAddress.address.[0].city}}" required>
                 </div>
                 <div class="col-md-4">
                     <label for="" class="form-label">District</label>
@@ -37,7 +39,8 @@
                 </div>
                 <div class="col-md-2">
                     <label for="" class="form-label">Pincode</label>
-                    <input type="text" class="form-control" id="pincode" value="{{userAddress.address.[0].pincode}}" required>
+                    <input type="text" class="form-control" id="pincode" value="{{userAddress.address.[0].pincode}}"
+                        required>
                 </div>
             </form>
         </div>
@@ -169,8 +172,14 @@
             }
         };
         var rzp1 = new Razorpay(options)
+        
+        rzp1.on('payment.failed', function (response) {
+            alert(response.error.code);
+        })
         rzp1.open()
     }
+
+
 
     function verifyPayment(payment, order) {
         fetch('/razorpay-success', {

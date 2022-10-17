@@ -396,7 +396,10 @@ router.get('/delete-coupon/:couponId', async (req, res) => {
 
 router.post('/coupon-submit', verifyAdminLogin, async (req, res) => {
     req.body.status = true
-    await adminHelpers.setCoupon(req.body)
+
+    let couponData = req.body
+
+    await adminHelpers.setCoupon(couponData)
     res.redirect('/admin/coupon')
 })
 
