@@ -109,13 +109,13 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
     if (duration == 'day') {
         let data = await adminHelpers.getSalesByDay(timePeriod)
 
-
+        //#################   PDF CREATION ################################# 
         let browser = await puppeteer.launch()
         let page = await browser.newPage()
-        let html = await fsextra.readFile('C:/Users/hasifazad/Desktop/pr/form.hbs', 'utf8')
-        
+        let html = await fsextra.readFile('./form.hbs', 'utf8')
+
         let content = hbs.compile(html)({ a: data })
-       
+
         await page.setContent(content)
         await page.pdf({
             path: 'output.pdf',
@@ -123,14 +123,49 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
             printBackground: true
         })
         await browser.close()
-
+        //#################   PDF CREATION END    ######################### 
 
         res.render('admin/sales', { admin: true, adminName, data })
     } else if (duration == 'month') {
         let data = await adminHelpers.getSalesByMonth(timePeriod)
+
+        //#################   PDF CREATION ################################# 
+        let browser = await puppeteer.launch()
+        let page = await browser.newPage()
+        let html = await fsextra.readFile('./form.hbs', 'utf8')
+
+        let content = hbs.compile(html)({ a: data })
+
+        await page.setContent(content)
+        await page.pdf({
+            path: 'output.pdf',
+            format: 'A4',
+            printBackground: true
+        })
+        await browser.close()
+        //#################   PDF CREATION END    ######################### 
+
+
         res.render('admin/sales', { admin: true, adminName, data })
     } else {
         let data = await adminHelpers.getSalesByYear(timePeriod)
+
+        //#################   PDF CREATION ################################# 
+        let browser = await puppeteer.launch()
+        let page = await browser.newPage()
+        let html = await fsextra.readFile('./form.hbs', 'utf8')
+
+        let content = hbs.compile(html)({ a: data })
+
+        await page.setContent(content)
+        await page.pdf({
+            path: 'output.pdf',
+            format: 'A4',
+            printBackground: true
+        })
+        await browser.close()
+        //#################   PDF CREATION END    ######################### 
+
         res.render('admin/sales', { admin: true, adminName, data })
     }
 
@@ -182,7 +217,7 @@ router.get('/products', verifyAdminLogin, async (req, res) => {
 
 router.get('/add-product', verifyAdminLogin, async (req, res) => {
     let category = await adminHelpers.getCategory()
-    
+
     res.render('admin/add-product', { admin: true, adminName, category })
 })
 
@@ -196,7 +231,7 @@ router.get('/edit-product/:id', verifyAdminLogin, async (req, res) => {
 router.get('/remove-product/:id', async (req, res) => {
     let productId = req.params.id
     let { images } = await adminHelpers.removeProductImage(productId)
-    
+
     for (i = 0; i < images.length; i++) {
         fs.unlinkSync('./public/images/products/' + images[i])
     }
@@ -274,18 +309,18 @@ router.post('/change-category-discount', async (req, res) => {
 
 router.post('/add-category', verifyAdminLogin, upload.single('image'), async (req, res) => {
     let categoryData = req.body
-    
+
     let imageFileName = req.file.filename
 
     categoryData.discount = parseInt(categoryData.discount)
-    
-    if(!Array.isArray(categoryData.subcategory)){
+
+    if (!Array.isArray(categoryData.subcategory)) {
         categoryData.subcategory = [categoryData.subcategory]
     }
-    if(!Array.isArray(categoryData.brand)){
+    if (!Array.isArray(categoryData.brand)) {
         categoryData.brand = [categoryData.brand]
     }
-   
+
     categoryData.image = imageFileName
 
     let categoryId = await adminHelpers.addCategory(categoryData)
