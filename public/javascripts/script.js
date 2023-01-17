@@ -319,6 +319,7 @@ function mobileValidation() {
                     document.getElementById("m_error").style.visibility = "visible"
                 } else {
                     document.getElementById('m_error').innerHTML = 'No user exist'
+                    document.getElementById('m_error').style.color = 'red'
                     document.getElementById("m_error").style.visibility = "visible"
                 }
             })

@@ -25,7 +25,7 @@ let instance = new razorpay(rzp)
 
 async function doSignup(userData) {
     let response = await db.get().collection('users').findOne({ $or: [{ emailid: userData.emailid }, { mobile: userData.mobile }] })
-        
+
 
     if (response === null) {
         userData.password = await bcrypt.hash(userData.password, 10)
@@ -60,7 +60,12 @@ async function doOtpLogin(mobile) {
 }
 
 async function getAllProducts() {
-    return await db.get().collection('products').find().toArray()
+    try {
+
+        return await db.get().collection('products').find().toArray()
+    } catch (error) {
+
+    }
 
 }
 async function getAllCategories() {
@@ -474,7 +479,7 @@ async function generateRazorpay(orderId, paymentDetails) {
 
     let total = parseInt(paymentDetails.offerAmount)
     let create_obj = {
-        amount: total * 10,
+        amount: total * 100,
         currency: "INR",
         receipt: "" + orderId
     }

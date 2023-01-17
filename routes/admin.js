@@ -108,7 +108,7 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
 
     if (duration == 'day') {
         let data = await adminHelpers.getSalesByDay(timePeriod)
-
+        res.render('admin/sales', { admin: true, adminName, data })
         //#################   PDF CREATION ################################# 
         let browser = await puppeteer.launch()
         let page = await browser.newPage()
@@ -125,7 +125,7 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
         await browser.close()
         //#################   PDF CREATION END    ######################### 
 
-        res.render('admin/sales', { admin: true, adminName, data })
+        
     } else if (duration == 'month') {
         let data = await adminHelpers.getSalesByMonth(timePeriod)
 
@@ -240,7 +240,9 @@ router.get('/remove-product/:id', async (req, res) => {
 })
 
 router.post('/add-product', verifyAdminLogin, upload.array('images', 4), async (req, res) => {
+    console.log(req.files);
     let productData = req.body
+   
 
     productData.price = parseInt(productData.price)
     productData.offer_price = productData.price            //initially there will be no offer so 'price' is equal to 'offer_price'
