@@ -45,7 +45,7 @@ const verifyUserLogin = (req, res, next) => {
 // =====================================================================================//====================================================//
 
 router.get('/', verifyLogin, async (req, res) => {
-    
+
     let products = await userHelpers.getAllProducts()
     let categories = await userHelpers.getAllCategories()
 
@@ -84,7 +84,7 @@ router.get('/', verifyLogin, async (req, res) => {
 
         }
     }
-    
+
     res.render("user/home", { products, userName, userId, categories })
 })
 
@@ -121,7 +121,7 @@ router.get('/otp-login', verifyLogin, (req, res) => {
 // ======================               POST REQUESTS              =====================//====================================================//
 // =====================================================================================//====================================================//
 
-router.post('/signup',userSignupValidation, async (req, res) => {
+router.post('/signup', userSignupValidation, async (req, res) => {
     let userData = req.body
 
     userData.status = true
@@ -143,7 +143,7 @@ router.post('/signup',userSignupValidation, async (req, res) => {
     }
 })
 
-router.post('/login',userLoginValidation, async (req, res) => {
+router.post('/login', userLoginValidation, async (req, res) => {
     let userData = req.body
 
     let user = await userHelpers.doLogin(userData)
@@ -157,6 +157,9 @@ router.post('/login',userLoginValidation, async (req, res) => {
 
             userName = user.username
             userId = user._id
+            res.cookie('cookietoken', 'hello', {
+                httpOnly: true
+            })
             res.json({ password: true, status: user.status })
         } else {
             res.json({ password: true, status: user.status })
@@ -176,6 +179,8 @@ router.post('/otp-login', async (req, res) => {
             .create({ to: '+91' + mobile, channel: 'sms' })
             .then((verification) => {
                 res.json({ userexist: true })
+            }).catch((err) => {
+                console.log(err);
             });
     } else {
         res.json({ userexist: false })
@@ -217,7 +222,7 @@ router.post('/otp-verify', async (req, res) => {
 //==============================    CART & WISHLIST    ==========================//
 //===============================================================================//
 
-router.get('/wishlist', verifyUserLogin,verifyLogin, async (req, res) => {
+router.get('/wishlist', verifyUserLogin, verifyLogin, async (req, res) => {
     let products = await userHelpers.getWishlistProducts(userId)
 
     for (i = 0; i < products.length; i++) {
@@ -227,7 +232,7 @@ router.get('/wishlist', verifyUserLogin,verifyLogin, async (req, res) => {
     res.render('user/wishlist', { userName, products })
 })
 
-router.get('/cart', verifyUserLogin,verifyLogin, async (req, res) => {
+router.get('/cart', verifyUserLogin, verifyLogin, async (req, res) => {
     let products = await userHelpers.getCartProducts(userId)
     let [total] = await userHelpers.getTotalAmount(userId)
     for (i = 0; i < products.length; i++) {
@@ -237,14 +242,14 @@ router.get('/cart', verifyUserLogin,verifyLogin, async (req, res) => {
     res.render('user/cart', { products, userName, userId, total })
 })
 
-router.get('/remove-cart-product/:id',verifyLogin, async (req, res) => {
+router.get('/remove-cart-product/:id', verifyLogin, async (req, res) => {
     let productId = req.params.id
-  
+
     await userHelpers.removeCartProduct(productId, userId)
     res.json({})
 })
 
-router.post('/add-to-cart', verifyUserLogin,verifyLogin, async (req, res) => {
+router.post('/add-to-cart', verifyUserLogin, verifyLogin, async (req, res) => {
     let { productId } = req.body
 
     await userHelpers.addToCart(userId, productId)
@@ -252,7 +257,7 @@ router.post('/add-to-cart', verifyUserLogin,verifyLogin, async (req, res) => {
 
 })
 
-router.post('/add-to-wishlist',verifyUserLogin,verifyLogin, async (req, res) => {
+router.post('/add-to-wishlist', verifyUserLogin, verifyLogin, async (req, res) => {
     let { productId } = req.body
 
     await userHelpers.addToWishlist(userId, productId)
@@ -260,6 +265,7 @@ router.post('/add-to-wishlist',verifyUserLogin,verifyLogin, async (req, res) => 
 })
 
 router.post('/change-quantity', verifyLogin, async (req, res) => {
+    console.log(req.body)
     let quantityChangeData = req.body
 
     let response = await userHelpers.changeQuantity(quantityChangeData)
@@ -278,14 +284,14 @@ router.post('/change-quantity', verifyLogin, async (req, res) => {
 //===============================    CARD DETAILS    ============================//
 //===============================================================================//
 
-router.get('/card-details/:id',verifyLogin, async (req, res) => {
+router.get('/card-details/:id', verifyLogin, async (req, res) => {
     let productId = req.params.id
     let product = await userHelpers.getProduct(productId)
 
     if (req.session.userLoggedIn && req.session.userStatus) {
         let wishlist = await userHelpers.getUserWishlistOfThisProduct(userId, productId)
         let cart = await userHelpers.getUserCartOfThisProduct(userId, productId)
-        
+
         try {
             product.cart_id = cart._id
             if (wishlist) {
@@ -299,7 +305,7 @@ router.get('/card-details/:id',verifyLogin, async (req, res) => {
 
         }
     }
-    
+
     res.render('user/card-details', { product, userName })
 })
 
@@ -309,7 +315,7 @@ router.get('/card-details/:id',verifyLogin, async (req, res) => {
 //================================    USER PROILE    ============================//
 //===============================================================================//
 
-router.get('/user-profile/:p',verifyUserLogin,verifyLogin, async (req, res) => {
+router.get('/user-profile/:p', verifyUserLogin, verifyLogin, async (req, res) => {
     if (req.params.p == 'personal') {
         let userData = await userHelpers.getProfileDetails(userId)
         res.render('user/profile-personal', { userName, userData })
@@ -319,11 +325,11 @@ router.get('/user-profile/:p',verifyUserLogin,verifyLogin, async (req, res) => {
         res.render('user/profile-address', { userName, userAddressData })
     } else if (req.params.p == 'wallet') {
         let [walletAmount] = await userHelpers.getWallet(userId)
-        
+
         res.render('user/profile-wallet', { userName, amount: walletAmount.amount })
-    }else if(req.params.p == 'coupon'){
+    } else if (req.params.p == 'coupon') {
         let coupons = await userHelpers.getCoupon()
-        
+
         res.render('user/profile-coupon', { userName, coupons })
     }
 })
@@ -340,7 +346,7 @@ router.post('/save-address', verifyLogin, async (req, res) => {
     res.redirect('/user-profile/address')
 })
 
-router.get('/remove-address/:addressNo',verifyLogin, async (req, res) => {
+router.get('/remove-address/:addressNo', verifyLogin, async (req, res) => {
     await userHelpers.removeAddress(req.params.addressNo, userId)
     res.redirect('/user-profile/address')
 })
@@ -351,15 +357,15 @@ router.get('/remove-address/:addressNo',verifyLogin, async (req, res) => {
 //==================================    ORDERS    ===============================//
 //===============================================================================//
 
-router.get('/place-order', verifyUserLogin,verifyLogin, async (req, res) => {
+router.get('/place-order', verifyUserLogin, verifyLogin, async (req, res) => {
     let { userAddress, userDetails } = await userHelpers.placeOrder(userId)
     let total = await userHelpers.getTotalAmount(userId)
-    
+
     total = total[0].total
     res.render('user/checkout', { userName, userAddress, userDetails, total })
 })
 
-router.get('/user-orders',verifyLogin, async (req, res) => {
+router.get('/user-orders', verifyLogin, async (req, res) => {
     let orders = await userHelpers.getOrders(userId)
 
     for (i = 0; i < orders.length; i++) {
@@ -370,20 +376,20 @@ router.get('/user-orders',verifyLogin, async (req, res) => {
     res.render('user/orders', { userName, orders })
 })
 
-router.get('/remove-order/:id/:amount',verifyLogin, async (req, res) => {
+router.get('/remove-order/:id/:amount', verifyLogin, async (req, res) => {
     let orderId = req.params.id
     let refundAmount = req.params.amount
-    
-    let a = await userHelpers.removeOrder(userId,orderId,refundAmount)
+
+    let a = await userHelpers.removeOrder(userId, orderId, refundAmount)
     res.json({})
 })
 
 
-router.get('/view-details',verifyLogin, async (req, res) => {
+router.get('/view-details', verifyLogin, async (req, res) => {
     await userHelpers.viewDetails()
 })
 
-router.get('/view-order-product/:id', verifyUserLogin,verifyLogin, async (req, res) => {
+router.get('/view-order-product/:id', verifyUserLogin, verifyLogin, async (req, res) => {
     let orderId = req.params.id
     let { orderedProducts, orderData } = await userHelpers.viewOrderProduct(orderId)
     try {
@@ -396,10 +402,10 @@ router.get('/view-order-product/:id', verifyUserLogin,verifyLogin, async (req, r
     } catch (error) {
 
     }
-    if(orderData.original_amount == orderData.offer_amount){
-        orderData.coupon_applied=false
-    }else{
-        orderData.coupon_applied=true
+    if (orderData.original_amount == orderData.offer_amount) {
+        orderData.coupon_applied = false
+    } else {
+        orderData.coupon_applied = true
     }
     res.render('user/view-order-product', { orderedProducts, orderData, userName })
 })
@@ -411,7 +417,7 @@ router.get('/view-order-product/:id', verifyUserLogin,verifyLogin, async (req, r
 
 
 
-router.get('/category-wise/:category',verifyLogin, async (req, res) => {
+router.get('/category-wise/:category', verifyLogin, async (req, res) => {
     let products = await userHelpers.getCategoryProducts(req.params.category)
     if (req.session.userLoggedIn && req.session.userStatus) {
         let [wishlist] = await userHelpers.getUserWishlist(userId)
@@ -455,12 +461,12 @@ router.get('/category-wise/:category',verifyLogin, async (req, res) => {
 
 
 
-router.post('/coupon-check',verifyLogin, async (req, res) => {
+router.post('/coupon-check', verifyLogin, async (req, res) => {
     let code = req.body.code
     let total = parseInt(req.body.total)
-    
-    let result = await userHelpers.couponCheck(userId,code,total)
-   
+
+    let result = await userHelpers.couponCheck(userId, code, total)
+
     res.json({ result })
 })
 
@@ -475,7 +481,7 @@ router.post('/coupon-check',verifyLogin, async (req, res) => {
 // -----------------------------------------------------------------//
 router.post('/checkout', verifyLogin, async (req, res) => {
     let orderDetails = req.body
-   
+
     let orderPlaced = await userHelpers.setOrders(userId, orderDetails)
 
     if (orderDetails.payment == 'COD') {
@@ -496,7 +502,7 @@ router.post('/checkout', verifyLogin, async (req, res) => {
 // -----------------------------------------------------------------//
 //                               PAYPAL                             //
 // -----------------------------------------------------------------//
-router.get('/paypal-success/:orderId',verifyLogin, async (req, res) => {
+router.get('/paypal-success/:orderId', verifyLogin, async (req, res) => {
     let orderId = req.params.orderId
     const payerId = req.query.PayerID;
     const paymentId = req.query.paymentId;
@@ -504,14 +510,14 @@ router.get('/paypal-success/:orderId',verifyLogin, async (req, res) => {
         res.render('user/successful', { userName })
     })
 })
-router.get('/paypal-cancel',verifyLogin, (req, res) => {
+router.get('/paypal-cancel', verifyLogin, (req, res) => {
 })
 
 
 // -----------------------------------------------------------------//
 //                             RAZORPAY                             //
 // -----------------------------------------------------------------//
-router.post('/razorpay-success',verifyLogin, async (req, res) => {
+router.post('/razorpay-success', verifyLogin, async (req, res) => {
     let { payment, order } = req.body
 
     await userHelpers.verifyRazorpay(payment, order, userId)
@@ -522,13 +528,13 @@ router.post('/razorpay-success',verifyLogin, async (req, res) => {
 // -----------------------------------------------------------------//
 //                          PAYMENT SUCCESS                         //
 // -----------------------------------------------------------------//
-router.get('/order-success',verifyLogin, (req, res) => {
+router.get('/order-success', verifyLogin, (req, res) => {
     res.render('user/successful', { userName })
 })
 
 
 
-router.post('/getaddress', verifyUserLogin,verifyLogin, async (req, res) => {
+router.post('/getaddress', verifyUserLogin, verifyLogin, async (req, res) => {
     let address = await userHelpers.getAddress(req.body.address_no, userId)
     res.json({ address })
 })

@@ -1,7 +1,9 @@
-<div class="container" style="height: 50vh">
-    <div class="row">
-        {{>user-profile-menu}}
-        <div class="col-6">
+<div class="container">
+    <div class="row d-flex justify-content-center">
+        <div class="col-8 col-md-3">
+            {{>user-profile-menu}}
+        </div>
+        <div class="col-12 col-md-6">
             <form id="address_form" action="/save-address" method="post" class="row g-3 p-5 mt-4 border"
                 onsubmit="saveAddress()">
                 <div class="col-12">

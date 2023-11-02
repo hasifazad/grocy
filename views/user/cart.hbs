@@ -1,8 +1,8 @@
-<div class="container" style="height: 50vh">
+<div class="container">
   <div class="row mt-5">
     <div class="col-12">
       {{#if products}}
-      <div class="">
+      <div class="table-responsive">
         <table class="table border">
           <thead>
             <tr>
@@ -20,7 +20,8 @@
             <tr>
               <th scope="row">{{this.sl_no}}</th>
               <td scope="row">{{this.products.name}}</td>
-              <td scope="row"><img src="/images/products/{{this.products.images.[0]}}" height="50" width="50" alt=""></td>
+              <td scope="row"><img src="/images/products/{{this.products.images.[0]}}" height="50" width="50" alt="">
+              </td>
               <td scope="row">{{this.products.category}}</td>
               <td scope="row">{{this.products.offer_price}}</td>
               <td scope="row">

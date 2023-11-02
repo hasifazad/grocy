@@ -8,34 +8,34 @@
                     <b id="otp-error"></b>
                     <label class="form-label m-0" for="emailid">Email ID</label>
                     <input class="form-control rounded-0" id="emailid" type="text" name="emailid" required
-                        onkeyup="getEmail()">
-                    <span class="error" id="e_error"></span>
-                    
+                        onkeyup="validateInput('emailid')">
+                    <span class="error" id="emailid_error"></span>
+
                     <br>
 
                     <label class="form-label m-0" for="mobile">Mobile</label>
                     <input class="form-control rounded-0" id="mobile" type="text" name="mobile" required
-                        onkeyup="getMobile()">
-                    <span class="error" id="m_error"></span>
+                        onkeyup="validateInput('mobile')">
+                    <span class="error" id="mobile_error"></span>
                     <br>
 
                     <label class="form-label m-0" for="username">Username</label>
                     <input class="form-control rounded-0" id="username" type="text" name="username" required
-                        onkeyup="getUsername()">
-                    <span class="error" id="u_error"></span>
+                        onkeyup="validateInput('username')">
+                    <span class="error" id="username_error"></span>
                     <br>
 
                     <label class="form-label m-0" for="password">Password</label>
                     <input class="form-control rounded-0" id="password" type="password" name="password" required
-                        onkeyup="getPassword()">
-                    <span class="error" id="p_error"></span>
+                        onkeyup="validateInput('password')">
+                    <span class="error" id="password_error"></span>
 
 
 
                     <button class="btn btn-success form-control rounded-0 mt-3" id="" type="submit"
                         onclick="return signupValidation()">Signup</button>
-                        <br>
-                        <br>
+                    <br>
+                    <br>
                     <a href="/login" style="text-decoration: none;">I have an account. Click here to login</a>
                 </div>
             </form>

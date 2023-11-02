@@ -3,17 +3,17 @@
         <div class="col">
             <div class="">
                 <div class="d-flex mt-4 mb-2 text-center" style="overflow-x:auto">
-                    <div class="ms-4">
+                    <div class="ms-4" style="min-width: 70px;">
                         <a href="/category-wise/All" class="text-decoration-none">
                             <img src="/images/menu/all.png" class="img-fluid" alt="">
-                            <p class="m-2">All Items</p>
+                            <p class="m-2">Allitems</p>
                         </a>
                     </div>
                     {{#each categories}}
-                    <div class="ms-4">
+                    <div class="ms-4" style="min-width: 70px;">
                         <a href="/category-wise/{{this.category_name}}" class="text-decoration-none">
                             <img src="/images/products/{{this.image}}" class="img-fluid" alt="">
-                            <p class="m-2">{{this.category_name}}</p>
+                            <p class="m-2" style="width: 50%;">{{this.category_name}}</p>
                         </a>
                     </div>
                     {{/each}}
@@ -126,11 +126,16 @@
                                 class="btn btn-success btn-sm">+</button>
                         </div>
                         {{else}}
-                        <button onclick="addToCart('{{../this._id}}')" class="btn btn-success btn-sm">Add to
-                            Cart</button>
+                        {{#if ../userName}}
+                        <button onclick="addToCart('{{this._id}}')" class="btn btn-success btn-sm">ADD TO CART</button>
+                        {{else}}
+                        <button onclick="redirectToLogin()" class="btn btn-success btn-sm">ADD TO
+                            CART</button>
+                        {{/if}}
                         {{/if}}
                     </div>
                     <div class="col-3 p-0">
+                        {{#if ../userName}}
                         {{#if this.wishlist}}
                         <button onclick="addToWishlist('{{this._id}}')"
                             class="btn btn-danger btn-sm border-danger fw-bold">
@@ -138,6 +143,12 @@
                         </button>
                         {{else}}
                         <button onclick="addToWishlist('{{this._id}}')"
+                            class="btn btn-outline-danger btn-sm float-end border-danger fw-bold">
+                            <i class="bi bi-heart"></i>
+                        </button>
+                        {{/if}}
+                        {{else}}
+                        <button onclick="redirectToLogin()"
                             class="btn btn-outline-danger btn-sm float-end border-danger fw-bold">
                             <i class="bi bi-heart"></i>
                         </button>
@@ -156,4 +167,7 @@
 
 <script>
 
+    const redirectToLogin = () => {
+        location.replace("/login")
+    }
 </script>

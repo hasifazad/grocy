@@ -1,34 +1,36 @@
-<div class="container" style="height: 50vh">
+<div class="container">
   <div class="row mt-5">
-    <div class="col-8">
-      <table class="table border">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">NAME</th>
-            <th scope="col">IMAGE</th>
-            <th>PRICE</th>
-            <th scope="col">OFFER PRICE</th>
-            
-          </tr>
-        </thead>
-        <tbody class="table-group-divider">
-          {{#each products}}
-          <tr>
-            <th scope="row">{{this.sl_no}}</th>
-            <td>{{this.product.name}}</td>
-            <td><img src="/images/products/{{this.product.images.[0]}}" height="50" width="50" alt=""></td>
-            <td><del>{{this.product.price}}</del></td>
-            <td>{{this.product.offer_price}}</td>
-            <td>
-              <button onclick="addToCart('{{this.product._id}}')" class="btn btn-primary">Add To Cart</button>
-              <button onclick="addToWishlist('{{this.product._id}}')" class="btn btn-danger">Remove</button>
-            </td>
-          </tr>
-          {{/each}}
-          
-        </tbody>
-      </table>
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table border">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">NAME</th>
+              <th scope="col">IMAGE</th>
+              <th scope="col">PRICE</th>
+              <th scope="col">OFFER PRICE</th>
+
+            </tr>
+          </thead>
+          <tbody class="table-group-divider">
+            {{#each products}}
+            <tr>
+              <th scope="row">{{this.sl_no}}</th>
+              <td>{{this.product.name}}</td>
+              <td><img src="/images/products/{{this.product.images.[0]}}" height="50" width="50" alt=""></td>
+              <td><del>{{this.product.price}}</del></td>
+              <td>{{this.product.offer_price}}</td>
+              <td>
+                <button onclick="addToCart('{{this.product._id}}')" class="btn btn-primary">Add To Cart</button>
+                <button onclick="addToWishlist('{{this.product._id}}')" class="btn btn-danger">Remove</button>
+              </td>
+            </tr>
+            {{/each}}
+
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 </div>

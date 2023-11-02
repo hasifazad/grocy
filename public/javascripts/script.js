@@ -1,70 +1,35 @@
-// validation for email in any pages in front-end
-function getEmail() {
-    let mailId = document.getElementById("emailid").value
-    let mailFormat = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
-    let mailCheck = mailId.match(mailFormat)
-
-    if (mailCheck === null || mailId === "") {
-        document.getElementById("e_error").innerHTML = "Please enter a valid email"
-        document.getElementById("e_error").style.visibility = "visible"
-        return false
-    } else {
-        document.getElementById("e_error").style.visibility = "hidden"
-        return true
+const validateInput = (inputFieldId) => {
+    let inputFieldValue = document.getElementById(inputFieldId).value
+    let regx
+    switch (inputFieldId) {
+        case 'emailid':
+            regx = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+            break;
+        case 'mobile':
+            regx = /^(\d{10})$/;
+            break;
+        case 'username':
+            regx = /([a-z])/;
+            break;
+        case 'password':
+            regx = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            break;
+        default:
+            break;
     }
-}
 
-// validation for mobile number in any page in front-end
-function getMobile() {
-    let mobile = document.getElementById("mobile").value
-    let mobileFormat = /^(\d{10})$/
-
-    let mobileCheck = mobile.match(mobileFormat)
-    if (mobileCheck === null || mobile === "") {
-        document.getElementById("m_error").innerHTML = "Please enter valid mobile number"
-        document.getElementById("m_error").style.visibility = "visible"
+    if (inputFieldValue.match(regx) == null || inputFieldValue == "") {
+        document.getElementById(`${inputFieldId}_error`).innerHTML = `enter valid ${inputFieldId}`
+        document.getElementById(`${inputFieldId}_error`).style.visibility = "visible"
         return false
     } else {
-        document.getElementById("m_error").style.visibility = "hidden"
-        return true
-    }
-}
-
-// validation for username in any page in front-end
-function getUsername() {
-    let userName = document.getElementById("username").value
-    let userNameFormat = /([a-z])/
-    let userNameCheck = userName.match(userNameFormat)
-
-    if (userNameCheck === null || userName.length <= 2) {
-        document.getElementById("u_error").innerHTML = "Please enter atleast 3 characters"
-        document.getElementById("u_error").style.visibility = "visible"
-        return false
-    } else {
-        document.getElementById("u_error").style.visibility = "hidden"
-        return true
-    }
-}
-
-// validation for password in any page in front-end
-function getPassword() {
-    let password = document.getElementById("password").value
-    let passwordFormat = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/
-    let passwordCheck = password.match(passwordFormat)
-
-    if (passwordCheck === null) {
-        document.getElementById('p_error').innerHTML = 'Password must contain any of !@#$%^&* and 0-9'
-        document.getElementById("p_error").style.visibility = "visible"
-        return false
-    } else {
-        document.getElementById("p_error").style.visibility = "hidden"
+        document.getElementById(`${inputFieldId}_error`).style.visibility = "hidden"
         return true
     }
 }
 
 // validation for OTP in any page in front-end
-function getOtp() {
+const getOtp = () => {
     let otp = document.getElementById("otp").value
 
     if (otp === "") {
@@ -76,20 +41,13 @@ function getOtp() {
     }
 }
 
-
-
-
-
 /*==========================User Signup Validation============================*/
 
-function signupValidation() {
-    getEmail()
-    getUsername()
-    getPassword()
-    getMobile()
-    if (!getEmail() || !getUsername() || !getPassword() || !getMobile()) {
-        return false
-    } else {
+const signupValidation = () => {
+    let response = ['emailid', 'mobile', 'username', 'password'].map((name) => validateInput(name))
+
+    if (response.some(a => !a)) return false
+    else {
         signup_form.onsubmit = (e) => {
             e.preventDefault()
             let emailid = document.getElementById('emailid').value
@@ -114,8 +72,8 @@ function signupValidation() {
                 return res.json()
             }).then((data) => {
                 if (data.userexist) {
-                    document.getElementById('e_error').innerHTML = 'sorry this users is already exist'
-                    document.getElementById("e_error").style.visibility = "visible"
+                    document.getElementById('emailid_error').innerHTML = 'sorry this users is already exist'
+                    document.getElementById("emailid_error").style.visibility = "visible"
                 } else {
                     location.reload()
                 }
@@ -129,10 +87,10 @@ function signupValidation() {
 
 /*==========================User Login Validation============================*/
 
-function loginValidation() {
-    getEmail()
-    getPassword()
-    if (!getEmail() || !getPassword()) {
+const loginValidation = () => {
+    let response = ['emailid', 'password'].map((name) => validateInput(name))
+
+    if (response.some(a => !a)) {
         return false
     } else {
         loginform.onsubmit = (e) => {
@@ -161,9 +119,9 @@ function loginValidation() {
                         document.getElementById("e_error").style.visibility = "visible"
                     }
                 } else {
-                    if(data.error){
+                    if (data.error) {
                         document.getElementById('e_error').innerHTML = data.error
-                    }else{
+                    } else {
                         document.getElementById('e_error').innerHTML = 'password or email is incorrect'
                     }
                     document.getElementById("e_error").style.visibility = "visible"
@@ -294,8 +252,8 @@ function userEditValidation(currentEmail) {
 /*================ Validation of User from Admin Panel==================*/
 
 function mobileValidation() {
-    getMobile()
-    if (!getMobile()) {
+    validateInput("mobile")
+    if (!validateInput("mobile")) {
         return false;
     } else {
         mobileform.onsubmit = (e) => {
@@ -333,9 +291,9 @@ function mobileValidation() {
 /*================Editing Validation of User from Admin Panel==================*/
 
 function otpValidation() {
-    getMobile()
+    validateInput('mobile')
     getOtp()
-    if (!getMobile() || !getOtp()) {
+    if (!validateInput('mobile') || !getOtp()) {
         return false;
     } else {
         otpform.onsubmit = (e) => {

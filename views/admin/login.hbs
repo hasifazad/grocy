@@ -7,14 +7,14 @@
                 <div class="p-5 pt-4 border bg-light">
                     <label class="form-label m-0" for="emailid">Email ID</label>
                     <input class="form-control rounded-0" id="emailid" type="text" name="emailid" required
-                        onkeyup="getEmail()">
-                    <span class="error" id="e_error"></span>
+                        onkeyup="validateInput('emailid')">
+                    <span class="error" id="email_error"></span>
                     <br>
 
                     <label class="form-label m-0" for="password">Password</label>
                     <input class="form-control rounded-0" id="password" type="password" name="password" required
-                        onkeyup="getPassword()">
-                    <span class="error" id="p_error"></span><br>
+                        onkeyup="validateInput('password')">
+                    <span class="error" id="password_error"></span><br>
 
                     <button class="btn btn-outline-primary form-control rounded-0" id="liveToastBtn" type="submit"
                         onclick="return adminLoginValidation()">Login</button>

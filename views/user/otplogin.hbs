@@ -1,17 +1,17 @@
 <div class="container mt-5">
     <div class="row">
 
-        <div class="col-9 col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-auto" id="f">
+        <div class="col-12 col-sm-7 col-md-6 col-lg-5 col-xl-4 mx-auto" id="f">
             <div class="p-5 pt-4 border bg-light ">
                 <form id="mobileform" action="" method="">
                     <br>
                     <label class="form-label m-0" for="mobile">Mobile</label>
                     <input class="form-control rounded-0" id="mobile" type="text" name="mobile"
-                        onkeyup="return getMobile()">
-                    <span class="error" id="m_error"></span>
+                        onkeyup="return validateInput('mobile')">
+                    <span class="error" id="mobile_error"></span>
                     <br>
 
-                    <button class="btn btn-success form-control rounded-0 mt-3" type="submit"
+                    <button class="btn btn-success form-control rounded-0" type="submit"
                         onclick="return mobileValidation()">Send OTP</button><br><br><br>
 
                 </form>
@@ -22,7 +22,7 @@
                     <input class="form-control rounded-0" id="otp" type="text" name="otp" onkeyup="getOtp()">
                     <span class="error" id="o_error"></span><br>
 
-                    <button class="btn btn-success form-control rounded-0 mt-3" type="submit"
+                    <button class="btn btn-success form-control rounded-0" type="submit"
                         onclick="return otpValidation()">LOG IN</button>
                     <br><br>
                     <a href="/login" style="text-decoration: none;">Email login</a>
