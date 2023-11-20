@@ -1,15 +1,25 @@
 {{#if adminName}}
+<div class="navbar navbar-expand-md">
 
-    <div class="w-100 text-center nav flex-column nav-pills pt-4 ps-4 border-end" role="tablist"
-        aria-orientation="vertical">
-        <a href="/admin" class="nav-link rounded-0" type="button">DASHBOARD</a>
-        <a href="/admin/sales" class="nav-link rounded-0">SALES</a>
-        <a href="/admin/users" class="nav-link rounded-0" type="button">USERS</a>
-        <a href="/admin/products" class="nav-link rounded-0">PRODUCTS</a>
-        <a href="/admin/categories" class="nav-link rounded-0">CATEGORIES</a>
-        <a href="/admin/brands" class="nav-link rounded-0">BRANDS</a>
-        <a href="/admin/orders" class="nav-link rounded-0">ORDERS</a>
-        <a href="/admin/coupon" class="nav-link rounded-0">COUPONS</a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse"
+        data-bs-target="#sidebarSupportedContent" ded="false" aria-label="Toggle navigation">
+        {{!-- <span class="navbar-toggler-icon"></span> --}}
+        click
+    </button>
+
+    <div class="collapse navbar-collapse" id="sidebarSupportedContent">
+        <div class="w-100 text-center nav flex-column nav-pills pt-4 ps-4 border-end " role="tablist"
+            aria-orientation="vertical">
+            <a href="/admin" class="nav-link rounded-0" type="button">DASHBOARD</a>
+            <a href="/admin/sales" class="nav-link rounded-0">SALES</a>
+            <a href="/admin/users" class="nav-link rounded-0" type="button">USERS</a>
+            <a href="/admin/products" class="nav-link rounded-0">PRODUCTS</a>
+            <a href="/admin/categories" class="nav-link rounded-0">CATEGORIES</a>
+            <a href="/admin/brands" class="nav-link rounded-0">BRANDS</a>
+            <a href="/admin/orders" class="nav-link rounded-0">ORDERS</a>
+            <a href="/admin/coupon" class="nav-link rounded-0">COUPONS</a>
+        </div>
     </div>
+</div>
 
 {{/if}}

@@ -1,52 +1,54 @@
-<div class="col-9">
-
-    <div class="my-4">
-        <div class="row">
-            <div class="col-3">
+<div class="col-12 col-md-9">
+    <div class="row g-4 mt-2">
+        <div class="col-12">
+            <div class="w-50 w-md-25">
                 <input class="form-control" id="search" onkeyup="myFunction()" type="search" placeholder="Search">
             </div>
         </div>
+
+        <div class="col">
+            <div class="table-responsive">
+                <table class="table table-hover border">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sl.No</th>
+                            <th scope="col">USER NAME</th>
+                            <th scope="col">EMAIL</th>
+                            <th scope="col">MOBILE NO</th>
+                            <th scope="col">CREATED ON</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each userDetails}}
+                        <tr>
+                            <th scope="row">{{this.sl_no}}</th>
+                            <td>{{this.username}}</td>
+                            <td>{{this.emailid}}</td>
+                            <td>{{this.mobile}}</td>
+                            <td>{{this.created_on}}</td>
+                            <td>
+                                <a href="/admin/block-user/{{this._id}}/{{this.status}}" type="button"
+                                    class="btn btn-sm btn-primary">
+                                    {{#if this.status}}
+                                    &nbsp;&nbsp;Block&nbsp;&nbsp;
+                                    {{else}}
+                                    Unblock
+                                    {{/if}}
+                                </a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-
-    <table class="table table-hover border">
-        <thead>
-            <tr>
-                <th scope="col">Sl.No</th>
-                <th scope="col">USER NAME</th>
-                <th scope="col">EMAIL</th>
-                <th scope="col">MOBILE NO</th>
-                <th scope="col">CREATED ON</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each userDetails}}
-            <tr>
-                <th scope="row">{{this.sl_no}}</th>
-                <td>{{this.username}}</td>
-                <td>{{this.emailid}}</td>
-                <td>{{this.mobile}}</td>
-                <td>{{this.created_on}}</td>
-                <td>
-                    <a href="/admin/block-user/{{this._id}}/{{this.status}}" type="button"
-                        class="btn btn-sm btn-primary">
-                        {{#if this.status}}
-                        &nbsp;&nbsp;Block&nbsp;&nbsp;
-                        {{else}}
-                        Unblock
-                        {{/if}}
-                    </a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-
 </div>
 </div>
 
 <script>
-    
+
     Handlebars.registerHelper('isdefined', function (value) {
         return value !== 'block';
     });

@@ -1,58 +1,54 @@
-<div class="col-9">
+<div class="col-12 col-md-9">
+    <div class="row m-3">
+        <div class="col-md-6">
+            <form action="/admin/add-product" method="post" enctype="multipart/form-data">
+                <label class="form-label mb-0" for="">Product Name</label>
+                <input class="form-control mb-3" name="name" type="text" required>
 
-    <div class="m-4">
+                <label class="form-label mb-0" for="">Unit</label>
+                <select id="unit" class="form-select mb-3" name="unit" required>
+                    <option value="kg" selected>kg</option>
+                    <option value="nos">nos</option>
+                    <option value="Ltr">Ltr</option>
+                </select>
 
-        <div class="row">
-            <div class="col-5">
-                <form action="/admin/add-product" method="post" enctype="multipart/form-data">
-                    <label class="form-label mb-0" for="">Product Name</label>
-                    <input class="form-control mb-3" name="name" type="text" required>
-
-                    <label class="form-label mb-0" for="">Unit</label>
-                    <select id="unit" class="form-select mb-3" name="unit" required>
-                        <option value="kg" selected>kg</option>
-                        <option value="nos">nos</option>
-                        <option value="Ltr">Ltr</option>
-                    </select>
-
-                    <label class="form-label mb-0" for="">Catergory</label>
-                    <select id="category" class="form-select mb-3" name="category" onchange="showCategories()" required>
-                        <option value=""></option>
-                        {{#each category}}
-                        <option value="{{this.category_name}}">{{this.category_name}}</option>
-                        {{/each}}
-                    </select>
+                <label class="form-label mb-0" for="">Catergory</label>
+                <select id="category" class="form-select mb-3" name="category" onchange="showCategories()" required>
+                    <option value=""></option>
+                    {{#each category}}
+                    <option value="{{this.category_name}}">{{this.category_name}}</option>
+                    {{/each}}
+                </select>
 
 
-                    <label class="form-label mb-0" for="">Sub-catergory</label>
-                    <select id="subcategory" class="form-select mb-3" name="sub_category">
+                <label class="form-label mb-0" for="">Sub-catergory</label>
+                <select id="subcategory" class="form-select mb-3" name="sub_category">
 
-                    </select>
+                </select>
 
-                    <label class="form-label mb-0 mt-3" for="">Brands</label>
-                    <select id="brand" class="form-select mb-3" name="brand">
+                <label class="form-label mb-0 mt-3" for="">Brands</label>
+                <select id="brand" class="form-select mb-3" name="brand">
 
-                    </select>
+                </select>
 
-                    <label class="form-label mb-0" for="">Price</label>
-                    <input class="form-control mb-3" name="price" type="number" required>
+                <label class="form-label mb-0" for="">Price</label>
+                <input class="form-control mb-3" name="price" type="number" required>
 
-                    <label class="form-label mb-0" for="">Description</label>
-                    <textarea class="form-control mb-3" name="description" type="text"></textarea>
+                <label class="form-label mb-0" for="">Description</label>
+                <textarea class="form-control mb-3" name="description" type="text"></textarea>
 
-                    <label class="form-label mb-0" for="">Image</label>
-                    <input class="form-control mb-3" name="images" id="image" type="file" onchange="displayImage(event)"
-                        value="" required multiple>
+                <label class="form-label mb-0" for="">Image</label>
+                <input class="form-control mb-3" name="images" id="image" type="file" onchange="displayImage(event)"
+                    value="" required multiple>
 
-                    <button class="form-control btn btn-success" type="submit">Submit</button>
-                </form>
-            </div>
-            <div class="col d-flex align-items-center justify-content-center border m-5">
+                <button class="form-control btn btn-success" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="p-2 border">
                 <img src="/images/noimage.jpg" id="display_image" height="250" width="250" alt="">
             </div>
-
         </div>
-
     </div>
 </div>
 

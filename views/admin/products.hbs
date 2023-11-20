@@ -1,52 +1,55 @@
-<div class="col-9">
+<div class="col-12 col-md-9">
 
-
-    <div class="my-4">
-        <div class="row">
-            <div class="col-3">
+    <div class="row g-4 mt-2">
+        <div class="col-12 d-flex justify-content-between">
+            <div class="w-50 w-md-25">
                 <input class="form-control" id="search" onkeyup="myFunction()" type="search" placeholder="Search">
             </div>
-            <div class="col-9">
-                <a href="/admin/add-product" class="btn btn-success float-end">ADD PRODUCT</a>
+            <div class="">
+                <a href="/admin/add-product" class="btn btn-success">ADD PRODUCT</a>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="table-responsive">
+                {{#if products}}
+                <table class="table table-hover border">
+                    <thead>
+                        <tr>
+                            <th scope="col">Sl.No</th>
+                            <th scope="col">PRODUCT</th>
+                            <th scope="col">IMAGE</th>
+                            <th scope="col">CATEGORY</th>
+                            <th scope="col">BRAND</th>
+                            <th scope="col">PRICE (₹)</th>
+                            <th scope="col">ADDED ON</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each products}}
+                        <tr>
+                            <th scope="row">{{this.sl_no}}</th>
+                            <td>{{this.name}}</td>
+                            <td><img src="/images/products/{{this.images.[0]}}" height="50" width="50" alt=""></td>
+                            <td>{{this.category}}</td>
+                            <td>{{this.brand}}</td>
+                            <td>{{this.price}}</td>
+                            <td>{{this.added_on}}</td>
+                            <td>
+                                <a href="/admin/edit-product/{{this._id}}" type="button"
+                                    class="btn btn-sm btn-primary">Edit</a>
+                                <a href="/admin/remove-product/{{this._id}}" type="button" class="btn btn-sm btn-danger"
+                                    onclick="return confirm('Are you sure?')">Remove</a>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
 
-
-    {{#if products}}
-    <table class="table table-hover border">
-        <thead>
-            <tr>
-                <th scope="col">Sl.No</th>
-                <th scope="col">PRODUCT</th>
-                <th scope="col">IMAGE</th>
-                <th scope="col">CATEGORY</th>
-                <th scope="col">BRAND</th>
-                <th scope="col">PRICE (₹)</th>
-                <th scope="col">ADDED ON</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each products}}
-            <tr>
-                <th scope="row">{{this.sl_no}}</th>
-                <td>{{this.name}}</td>
-                <td><img src="/images/products/{{this.images.[0]}}" height="50" width="50" alt=""></td>
-                <td>{{this.category}}</td>
-                <td>{{this.brand}}</td>
-                <td>{{this.price}}</td>
-                <td>{{this.added_on}}</td>
-                <td>
-                    <a href="/admin/edit-product/{{this._id}}" type="button" class="btn btn-sm btn-primary">Edit</a>
-                    <a href="/admin/remove-product/{{this._id}}" type="button" class="btn btn-sm btn-danger"
-                        onclick="return confirm('Are you sure?')">Remove</a>
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
-    
     {{else}}
     <h1>empty</h1>
     {{/if}}

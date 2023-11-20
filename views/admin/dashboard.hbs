@@ -1,42 +1,79 @@
-<div class="col-9">
+<div class="col-12 col-md-9" style="border: 1px solid black;">
 
-  <div class="row">
-    <div class="d-flex my-4">
-      <div class="card col-2 p-2 ms-5">
+  <div class="row justify-content-evenly">
+    {{!-- <div class="d-flex my-4"> --}}
+      <div class="card col-6 col-md-2 p-2">
         <p>Number of Users</p>
-        <h2>{{userCount}}</h2>
+        <p style="font-size:calc(100% + 1vw + 1vh)">{{userCount}}</p>
       </div>
-      <div class="card col-2 p-2 ms-4">
+      <div class="card col-6 col-md-2 p-2">
         <p>Number of Products</p>
         <h2>{{productCount}}</h2>
       </div>
-      <div class="card col-2 p-2 ms-4">
+      <div class="card col-6 col-md-2 p-2">
         <p>Number of Brands</p>
         <h2>{{brandCount}}</h2>
       </div>
-      <div class="card col-2 p-2 ms-4">
+      <div class="card col-6 col-md-2 p-2">
         <p>Number of Orders</p>
         <h2>{{orderCount}}</h2>
       </div>
-      <div class="card col-2 p-2 ms-4">
+      <div class="card col-6 col-md-2 p-2">
         <p>Total Sales</p>
         <h2>{{totalSale}}</h2>
-      </div>
+        {{!--
+      </div> --}}
     </div>
 
-    <div class="row">
+    {{!-- <div class="row">
       <div class="m-5 col-12">
         <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
       </div>
+    </div> --}}
+
+    <div class="m-5 col-12" style="width: 800px; height: 500px;">
+      <canvas id="myChart"></canvas>
     </div>
 
   </div>
 
+
 </div>
 </div>
+</div>
 
 
 
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', '', '', '', '', '', '', '', '',],
+      datasets: [{
+        label: '# of Votes',
+        data: [{{ ar }}],
+      borderWidth: 1
+    }]
+  },
+    options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  }
+  });
+</script>
+
+
+
+
+{{!--
 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <script type="text/javascript">
   let a = [{{ ar }}]
@@ -81,4 +118,4 @@
 
     chart.draw(data, google.charts.Bar.convertOptions(options));
   }
-</script>
+</script> --}}

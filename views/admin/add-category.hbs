@@ -1,44 +1,43 @@
-<div class="col-9">
+<div class="col-12 col-md-9">
+    <div class="row m-3">
+        <div class="col-md-6">
+            <form id="" action="/admin/add-category" method="post" enctype="multipart/form-data">
+                <label class="form-label mb-0" for="">Catergory Name</label>
+                <input class="form-control mb-3" name="category_name" type="text" required>
 
-    <div class="m-4">
-        <div class="row">
-            <div class="col-5">
-                <form id="" action="/admin/add-category" method="post" enctype="multipart/form-data">
-                    <label class="form-label mb-0" for="">Catergory Name</label>
-                    <input class="form-control mb-3" name="category_name" type="text" required>
-
-                    <label class="form-label mb-0" for="">Sub-category</label>
-                    <button class="btn btn-primary btn-sm float-end" type="button"
-                        onclick="addCategoryInput()">Add</button>
-                    <div id="s">
-                        <input type="search" name="subcategory" class="form-control">
-                    </div>
+                <label class="form-label mb-0" for="">Sub-category</label>
+                <button class="btn btn-primary btn-sm float-end" type="button" onclick="addCategoryInput()">Add</button>
+                <div id="s">
+                    <input type="search" name="subcategory" class="form-control">
+                </div>
 
 
-                    <label class="form-label mb-0 mt-3" for="">Brand</label>
-                    <button class="btn btn-primary btn-sm float-end mt-3" type="button"
-                        onclick="addBrandInput()">Add</button>
-                    <div id="b">
-                        <input type="search" name="brand" class="form-control" value="grocy">
-                    </div>
+                <label class="form-label mb-0 mt-3" for="">Brand</label>
+                <button class="btn btn-primary btn-sm float-end mt-3" type="button"
+                    onclick="addBrandInput()">Add</button>
+                <div id="b">
+                    <input type="search" name="brand" class="form-control" value="grocy">
+                </div>
 
-                    <label class="form-label mb-0 mt-3" for="">Discount</label>
-                    <input class="form-control mb-3" name="discount" type="number" min="0" max="100" value=0>
+                <label class="form-label mb-0 mt-3" for="">Discount</label>
+                <input class="form-control mb-3" name="discount" type="number" min="0" max="100" value=0>
 
-                    <label class="form-label mb-0" for="">Image</label>
-                    <input class="form-control mb-3" name="image" id="image" type="file" onchange="displayImage(event)"
-                        required>
+                <label class="form-label mb-0" for="">Image</label>
+                <input class="form-control mb-3" name="image" id="image" type="file" onchange="displayImage(event)"
+                    required>
 
-                    <button class="form-control btn btn-success" type="submit">Submit</button>
-                </form>
-            </div>
-            <div class="col d-flex align-items-center justify-content-center border m-5">
+                <button class="form-control btn btn-success" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="col-md-6 d-flex align-items-center justify-content-center">
+            <div class="p-2 border">
                 <img src="/images/noimage.jpg" id="display_image" height="250" width="250" alt="">
             </div>
         </div>
     </div>
-
 </div>
+
+
 </div>
 
 

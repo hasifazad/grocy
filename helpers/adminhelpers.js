@@ -19,10 +19,13 @@ module.exports = {
     },
 
     doLoginAdmin: async (adminData) => {
+        console.log(adminData);
         let admin = await db.get().collection('admins').findOne({ emailid: adminData.emailid })
+        console.log(admin);
 
         if (admin) {
             let passwordTrue = await bcrypt.compare(adminData.password, admin.password)
+            console.log(passwordTrue);
             if (passwordTrue === true) {
                 return admin
             } else {

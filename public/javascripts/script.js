@@ -176,9 +176,9 @@ function adminSignupValidation() {
 /*==========================Admin Login Validation============================*/
 
 function adminLoginValidation() {
-    getEmail()
-    getPassword()
-    if (!getEmail() || !getPassword()) {
+    let response = ['emailid', 'password'].map((name) => validateInput(name))
+
+    if (response.some(a => !a)) {
         return false
     } else {
         login_form.onsubmit = (e) => {
@@ -190,6 +190,8 @@ function adminLoginValidation() {
                 emailid,
                 password
             }
+
+            console.log(logObj);
             fetch("/admin/login", {
                 method: 'post',
                 headers: {
@@ -202,7 +204,7 @@ function adminLoginValidation() {
                 if (data.password) {
                     location.reload()
                 } else {
-                    document.getElementById('message').innerHTML = 'This email already exist'
+                    document.getElementById('emailid_error').innerHTML = 'This email already exist'
                 }
             })
         }

@@ -29,7 +29,7 @@ const verifyAdminLogin = (req, res, next) => {
 // =====================================================================================//
 
 router.get('/login', verifyAdminLogin, (req, res) => {
-    res.redirect('/admin', { admin: true })
+    res.redirect('/admin')
 })
 
 router.get('/signup', (req, res) => {
@@ -125,7 +125,7 @@ router.post('/get-day-sales', verifyAdminLogin, async (req, res) => {
         await browser.close()
         //#################   PDF CREATION END    ######################### 
 
-        
+
     } else if (duration == 'month') {
         let data = await adminHelpers.getSalesByMonth(timePeriod)
 
@@ -242,7 +242,7 @@ router.get('/remove-product/:id', async (req, res) => {
 router.post('/add-product', verifyAdminLogin, upload.array('images', 4), async (req, res) => {
     console.log(req.files);
     let productData = req.body
-   
+
 
     productData.price = parseInt(productData.price)
     productData.offer_price = productData.price            //initially there will be no offer so 'price' is equal to 'offer_price'
